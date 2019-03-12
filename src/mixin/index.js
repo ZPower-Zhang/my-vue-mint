@@ -39,3 +39,21 @@
     }, 100)
   }
 })()
+
+const mixin = {
+  methods: {
+    messageBox: function (title, msg, showBtn) {
+      // MessageBox({
+      //   title: '提示',
+      //   message: '确定执行此操作?',
+      //   showCancelButton: showBtn
+      // })
+    },
+
+    isWeiXin: function () {
+
+    }
+  }
+}
+
+export default mixin

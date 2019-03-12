@@ -117,10 +117,10 @@
 </template>
 
 <script>
-import imgVideo from "@/assets/img/video.png";
-import imgTrain from "@/assets/img/training.png";
-import imgGuide from "@/assets/img/guide.png";
-import imgConsult from "@/assets/img/svg_consult.png";
+import imgVideo from "@/assets/img/video.png"
+import imgTrain from "@/assets/img/training.png"
+import imgGuide from "@/assets/img/guide.png"
+import imgConsult from "@/assets/img/svg_consult.png"
 import HeaderTop from '@/components/HeaderTop'
 export default {
   name: "hindex",
@@ -139,7 +139,9 @@ export default {
   components: {
     HeaderTop
   },
-  created() {},
+  created() {
+   this.doFirst()
+  },
   methods: {
     toggle() {
       this.showDrop = !this.showDrop;
