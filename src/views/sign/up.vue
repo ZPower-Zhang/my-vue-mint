@@ -2,6 +2,12 @@
   <div style="position:relative;">
     <HeaderTop :showBack="showBack" :showTtl="showTtl" :showU="showU"></HeaderTop>
     <div class="g-signUp">
+      
+      <div class="error-box" :class="{'block-i': showErr}">
+        <i class="mintui mintui-field-warning"></i>
+        {{errMsg}}
+      </div>
+
       <div class="m-ipt">
         <input type="text" v-model="phoneNum" placeholder="手机号">
       </div>
@@ -21,7 +27,7 @@
 
 <script>
 import HeaderTop from '@/components/HeaderTop'
-import { getSendSMS } from '@/api/lession'
+import { getSendSMS, getAuthSMS } from '@/api/lession'
 export default {
   name: "signup",
   components: {
@@ -34,51 +40,81 @@ export default {
       showTtl: '注册',
       phoneNum: null,
       validateCode: null,
+      showErr: false,
+      errMsg: ''
     }
   },
   mounted() {},
   methods: {
     // 获取验证码
     async getCode() {
+      let _this = this
       let num = this.phoneNum
       let testPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/i;
       if(!num) {
-        alert('请输入手机号')
+        _this.toggleError(true, '请输入手机号')
         return false
       }
 
-      console.log(testPhone.test(num))
       if(!testPhone.test(num)) {
-        alert('手机号输入错误')
+        _this.toggleError(true, '手机号格式错误')
       }
+
+      
+      _this.toggleError(false)
 
       let ret = await getSendSMS({
         phone: num
       })
+      if(ret && ret.flag) {
+        // alert('@@@@@@')
+      }
     },
 
-    // 下一步
-    goToNext() {
+    // 错误信息的提示
+    toggleError(show, msg) {
+      this.showErr = show
+      if(show) {
+        this.errMsg = msg
+      } else {
+        this.errMsg = ''
+      }
+    },
+
+    // 验证码校验
+    async goToNext() {
+      
+      let _this = this
       let num = this.phoneNum, code = this.validateCode;
       let testPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/i, testcode = /^[0-9]{6}$/i;
       if(!num) {
-        alert('请输入手机号')
+        _this.toggleError(true, '请输入手机号')
         return false
       }
       if(!testPhone.test(num)) {
-        alert('手机号输入错误')
+        _this.toggleError(true, '手机号格式错误')
+        return false
       }
       if(!code) {
-        alert('请输入验证码')
+        _this.toggleError(true, '请输入验证码')
         return false
       }
       if(!testcode.test(code)) {
-         alert('验证码输入不正确')
+        _this.toggleError(true, '验证码输入不正确')
         return false
       }
-      this.$router.push({
-        path: "complete"
+      _this.toggleError(false)
+
+      let ret = await getAuthSMS({
+        phone: num,
+        code: code
       })
+
+      // if (ret && ret.flag) {
+        this.$router.push({
+          path: "complete"
+        })
+      // }
     }
   }
 };

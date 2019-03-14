@@ -82,6 +82,12 @@ export const routers = [
         name: 'mcollect',
         component: () => import('@/views/my/mcollect'),
         meta: { title: 'mcollect', icon: 'lock', noCache: false, admin: false }
+      },
+      {
+        path: 'conversion',
+        name: 'conversion',
+        component: () => import('@/views/my/conversion'),
+        meta: { title: 'conversion', icon: 'lock', noCache: false, admin: false }
       }
     ]
   }

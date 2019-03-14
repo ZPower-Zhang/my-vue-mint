@@ -7,9 +7,8 @@
 <script>
 import HeaderTop from '@/components/HeaderTop'
 export default {
-  name: "study",
-
-  data() {
+  name: "mcollect",
+  data () {
     return {
       showU: false,
       showBack: true,

@@ -536,3 +536,22 @@ code {
     }
   }
 }
+
+.error-box {
+  display: none;
+  margin: 15px 0;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 10px;
+  overflow: hidden;
+  background-color: #fff6ee;
+  color: #f03e3e;
+  border: 1px solid #f2ddcb;
+}
+.hide{
+  display: none;
+}
+.block-i {
+  display: block !important;
+  transition: all .3s ease-in-out;
+}

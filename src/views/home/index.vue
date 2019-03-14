@@ -139,9 +139,7 @@ export default {
   components: {
     HeaderTop
   },
-  created() {
-   this.doFirst()
-  },
+  created() {},
   methods: {
     toggle() {
       this.showDrop = !this.showDrop;
