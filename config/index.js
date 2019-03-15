@@ -3,6 +3,8 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+var address = require('address')
+var _localhost = address.ip()
 
 module.exports = {
   dev: {
@@ -22,7 +24,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: (_localhost || 'localhost'), // can be overwritten by process.env.HOST
     port: 5001, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

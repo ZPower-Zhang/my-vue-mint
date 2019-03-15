@@ -73,6 +73,7 @@ export default {
       showU: false,
       showBack: true,
       showTtl: '完善个人信息',
+      phoneNum: null,
       userName: '',
       email: '',
       province: '',
@@ -121,15 +122,18 @@ export default {
   components: {
     HeaderTop
   },
-  mounted() {},
+  mounted() {
+    // console.error(this.$route.query)
+    this.phoneNum = parseInt(this.$route.query.phoneNum)
+    // console.error(this.phoneNum)
+  },
   methods: {
     // 获取参数信息
     getParams() {
-      alert('@@@@')
       let regUser =  /^[a-z][a-z0-9_]{5,20}$/i, _this = this;
       let regEmail =  /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/i;
 
-      if(_this.userName.length < 6 || _this.userName.length > 20 || !regUser.test(_this.userName)) {
+      if(_this.userName.length < 1 || _this.userName.length > 20 || !regUser.test(_this.userName)) {
         _this.toggleError(true, '用户名无效')
         return false
       } else {
@@ -138,18 +142,27 @@ export default {
 
       if(!regEmail.test(_this.email)) {
         _this.toggleError(true, '邮箱无效')
+        return false
       } else {
         _this.toggleError(false)
       }
 
-      if(_this.company.length < 6) {
-        _this.toggleError(true, '用户名无效')
+      if(_this.company.length < 2) {
+        _this.toggleError(true, '公司名称无效')
+        return false
+      } else {
+        _this.toggleError(false)
+      }
+
+      if(_this.code.length < 6) {
+        _this.toggleError(true, '证书编码无效')
+        return false
       } else {
         _this.toggleError(false)
       }
 
       let obj = {
-        phone: null,
+        phone: _this.phoneNum,
         userName: _this.userName,
         email: _this.email,
         province: _this.areaString,
@@ -172,11 +185,12 @@ export default {
 
     // 注册
     async doRegister() {
-      alert('@@@@')
       let params = this.getParams()
       let ret = await getRegis(params)
       if(ret && ret.flag) {
-
+        this.$router.push({
+          name: 'home'
+        })
       }
     },
 
@@ -219,15 +233,10 @@ export default {
         this.slotstree[0].values = street
       }
       this.areaString = values.join(',')
-      console.log(this.areaString)
+      // console.log(this.areaString)
     },
     onStreeChange(picker, values) {
       this.streetString = values.join(',')
-    },
-
-    // 注册
-    doRegister() {
-      
     }
   }
 };

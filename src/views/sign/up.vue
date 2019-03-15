@@ -67,7 +67,6 @@ export default {
         phone: num
       })
       if(ret && ret.flag) {
-        // alert('@@@@@@')
       }
     },
 
@@ -110,11 +109,14 @@ export default {
         code: code
       })
 
-      // if (ret && ret.flag) {
+      if (ret && ret.flag) {
         this.$router.push({
-          path: "complete"
+          path: 'complete',
+          query:{
+            phoneNum: num
+          }
         })
-      // }
+      }
     }
   }
 };

@@ -8,6 +8,7 @@ import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import '@/assets/scss/index.scss' // global css
 import mixin from './mixin'
+import './permission'
 
 // 引入全部组件
 Vue.use(Mint)

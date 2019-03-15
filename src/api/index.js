@@ -75,18 +75,17 @@ service.interceptors.response.use(
   res => {
     removePending(res.config)
     const ret = res.data
-    const code = ret.statusCode
-    if (code === '000000') {
+    if (res.status === 200) {
       let obj = {}
       obj = {
         flag: true,
         code: 0,
-        data: ret.data,
+        data: ret.data || null,
         msg: ret.msg
       }
       return obj
     } else {
-      console.error(res)
+      // console.error(res)
     }
     return res
   },
