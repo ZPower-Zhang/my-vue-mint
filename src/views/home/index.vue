@@ -35,10 +35,9 @@
 
     <section class="g-list" v-for="(item,index) in lists">
       <div class="list-ttl">{{item.header}}</div>
-      <!-- <h4>{{item.header}}</h4> -->
       <div class="ul-panel" v-for="(item2,index2) in item.list">
         <a
-          href="/course/intro?data=121"
+          :href="'/course/intro?data='+item2.proid"
           target="_self"
           rel="noopener noreferrer"
           class="panel-content"
@@ -61,49 +60,6 @@
         </a>
       
     </section>
-<!--         <a
-          href="/course/intro?data=122"
-          target="_self"
-          rel="noopener noreferrer"
-          class="panel-content"
-        >
-          <div class="panel-hd">
-            <img src="https://pro.modao.cc/uploads4/images/2839/28392980/v2_pjascw.png" alt srcset>
-          </div>
-          <div class="panel-bd">
-            <h3>多病共存条件下的全科医生临床技能淬炼课程</h3>
-            <p class="u-p">杨浦区中心医院 主持</p>
-            <p class="u-price">
-              <span class="u-unit">￥</span>2999
-              <span class="u-count">27人参与</span>
-            </p>
-          </div>
-        </a>
-        <a
-          href="/course/intro?data=123"
-          target="_self"
-          rel="noopener noreferrer"
-          class="panel-content"
-        >
-          <div class="panel-hd">
-            <img src="https://pro.modao.cc/uploads4/images/2839/28392980/v2_pjascw.png" alt srcset>
-          </div>
-          <div class="panel-bd">
-            <h3>多病共存条件下的全科医生临床技能淬炼课程</h3>
-            <p class="u-p">杨浦区中心医院 主持</p>
-            <p class="u-price">
-              <span class="u-unit">￥</span>2999
-              <span class="u-count">27人参与</span>
-            </p>
-          </div>
-        </a> -->
-<!--         <a href="http://" target="_self" rel="noopener noreferrer" class="panel-ft">
-          <h4>查看更多</h4>
-        </a>
-      </div>
-    </section> -->
-
-
   </div>
 </template>
 
@@ -142,7 +98,6 @@ export default {
       let ret = await getHome()
       console.log(ret)
       this.bannerList = ret.data.banner
-      // ["data"]["banner"]
       this.lists = ret.data.lists
     },
     toggle() {
