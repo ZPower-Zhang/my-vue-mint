@@ -5,7 +5,7 @@
         <mt-button icon="back"></mt-button>
       </router-link>
       <mt-button slot="right" @click="toggle" v-show="showUser">
-        <img :src="imgUser" alt srcset>
+        <img :src="imgUser" alt srcset style="width: 20px">
       </mt-button>
     </mt-header>
     <transition>
@@ -17,7 +17,10 @@
           <router-link to="/my/mstudy">
             <li>我的学习</li>
           </router-link>
-          <router-link to="/course/order">
+          <router-link to="/my/mcollect">
+            <li>我的收藏</li>
+          </router-link>
+          <router-link to="/my/conversion">
             <li>课程兑换</li>
           </router-link>
         </ul>
@@ -26,7 +29,7 @@
   </div>
 </template>
 <script>
-import userImg from "@/assets/img/user-secret.png";
+import userImg from "@/assets/img/user.png";
 export default {
   name: "header-top",
   data() {
@@ -53,7 +56,7 @@ export default {
   },
   components: {},
   created() {
-    this.showBLink = this.showBack || true;
+    this.showBLink = this.showBack || false;
     this.showUser = this.showU;
     this.showTitle = this.showTtl || '';
   },

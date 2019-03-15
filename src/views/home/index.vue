@@ -4,7 +4,7 @@
     <section class="g-swiper">
       <mt-swipe :auto="4000">
         <mt-swipe-item v-for="(item,index) in bannerList">
-          <a href="http://" target="_self" rel="noopener noreferrer">
+          <a :href="'/course/intro?data='+item.proid" target="_self" rel="noopener noreferrer">
             <img
               v-bind:src="item.bImgURL"
               alt
