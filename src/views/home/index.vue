@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     async home() {
-      let ret = await getHome()
+      let ret = await getHome({})
       console.log(ret)
       this.bannerList = ret.data.banner
       this.lists = ret.data.lists
