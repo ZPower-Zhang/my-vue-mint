@@ -82,7 +82,7 @@ export default {
       showDrop: false,
       showU: true,
       showBack: false,
-      showTtl: '全科与公卫培训平台',
+      // showTtl: '全科与公卫培训平台',
       bannerList:[],
       lists:[],
 
