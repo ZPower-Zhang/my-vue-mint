@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import userImg from "@/assets/img/user-secret.png";
+import userImg from "@/assets/img/用户.png";
 export default {
   name: "header",
   data() {
