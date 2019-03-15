@@ -8,7 +8,7 @@
       <div class="m-md-tab">
         <mt-navbar v-model="selected">
           <mt-tab-item id="1">培训介绍</mt-tab-item>
-          <mt-tab-item id="2">评论安排</mt-tab-item>
+          <mt-tab-item id="2">培训安排</mt-tab-item>
           <!-- <mt-tab-item id="3">评论列表</mt-tab-item> -->
           <mt-tab-item id="4">课后交流</mt-tab-item>
         </mt-navbar>
@@ -21,7 +21,7 @@
               <span>¥{{total_fee/100}}</span>
               <span style="text-decoration:line-through;" v-if="seen">¥{{Orig_fee/100}}</span>
               <span>{{buyCount}}人购买</span>
-              <span>还剩{{number-buyCount}}个名额</span>
+              <span>剩余{{number-buyCount}}个名额</span>
               <span>{{collectionCount}}人点赞</span>
             </div>
             <div class="text-intro">

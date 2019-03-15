@@ -9,6 +9,7 @@
               v-bind:src="item.bImgURL"
               alt
               srcset
+              style = "width: 100%"
             >
           </a>
           </mt-swipe-item>
@@ -50,7 +51,7 @@
             <p class="u-p">{{item2.speaker}} 主持</p>
             <p class="u-price">
               <span class="u-unit">￥</span>{{item2.total_fee/100}}
-              <span class="u-count">{{item2.buyCount}}人购买</span>
+              <span class="u-count">剩余{{item2.number-item2.buyCount}}个名额</span>
             </p>
           </div>
         </a>
@@ -81,7 +82,7 @@ export default {
       showDrop: false,
       showU: true,
       showBack: false,
-      showTtl: '全科医学培训',
+      showTtl: '全科与公卫培训平台',
       bannerList:[],
       lists:[],
 

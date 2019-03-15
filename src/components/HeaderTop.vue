@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import userImg from "@/assets/img/user.png";
+import userImg from "@/assets/img/我的.png";
 export default {
   name: "header-top",
   data() {
