@@ -40,13 +40,14 @@
           <i>￥</i>299.00
         </span>
       </div>
-      <div class="pay-now">立即支付</div>
+      <div class="pay-now" @click="payNow">立即支付</div>
     </div>
   </div>
 </template>
 
 <script>
 import HeaderTop from '@/components/HeaderTop'
+import { getWxPay, getWxRepay } from '@/api/lession'
 export default {
   name: "order",
   data() {
@@ -61,6 +62,22 @@ export default {
     HeaderTop
   },
   mounted() {},
-  methods: {}
+  methods: {
+    // 支付
+    async payNow() {
+      let ret = await getWxPay({})
+      if (ret && ret.flag) {
+
+      }
+    },
+
+    // 重新支付
+    async goToRePay () {
+      let ret = await getWxRepay({})
+      if (ret && ret.flag) {
+
+      }
+    }
+  }
 };
 </script>

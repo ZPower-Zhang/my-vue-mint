@@ -180,9 +180,10 @@ code {
   background-color: #26a2ff;
   font-weight: 600;
   border-radius: 3px;
+
   ul {
     li {
-      padding: 10px 0; 
+      padding: 10px 0;
       list-style-type: none;
       list-style: none;
     }
@@ -305,15 +306,40 @@ code {
         }
       }
     }
-
-    .panel-ft {
-      padding: .1rem .15rem;
-      position: relative;
-      display: flex;
-      align-items: center;
-      color: #586c94;
-      font-size: .24rem;
+  }
+  .ul-study {
+    padding-bottom: .2rem;
+    border-bottom: 1px solid #ebebeb;
+    .panel-content {
+      border-bottom: none;
     }
+    .pay-detail {
+      position: relative;
+      .dt-lf {
+        padding-left: .15rem;
+        p {
+          font-weight: 600;
+          color:#8c8c8c;
+        }
+        .p-price {
+          color: #e51c23;
+        }
+      }
+      .mint-button {
+        position: absolute;
+        top: 0;
+        right: 20px;
+      }
+    }
+  }
+
+  .panel-ft {
+    padding: .1rem .15rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: #586c94;
+    font-size: .20rem;
   }
 }
 
@@ -455,15 +481,19 @@ code {
   .m-total {
     flex-shrink: 9;
     text-align: left;
+
     span {
       color: #000;
       font-size: 14px;
+
       &:first-of-type {
         padding: 0 0 0 .4rem;
       }
     }
+
     .u-money {
       color: #28b8a1;
+
       i {
         font-style: normal;
       }
@@ -481,7 +511,8 @@ code {
     font-size: 12px;
     color: #bbb;
   }
-  .mint-switch-input:checked + .mint-switch-core {
+
+  .mint-switch-input:checked+.mint-switch-core {
     background-color: #28b8a1;
     color: #28b8a1;
   }
@@ -492,10 +523,12 @@ code {
   box-sizing: border-box;
   display: block;
   padding: .2rem;
+
   .m-ipt {
     display: block;
     width: 100%;
     height: 48px;
+
     input {
       display: inline-block;
       width: 100%;
@@ -506,9 +539,11 @@ code {
       color: #666;
       border-radius: 2px;
     }
+
     .ipt-width {
       width: 60%;
     }
+
     .send-code {
       display: inline-block;
       margin-left: 2%;
@@ -522,13 +557,16 @@ code {
       box-shadow: 2px 5px 2px #999;
     }
   }
-  .m-ipt + .m-ipt {
+
+  .m-ipt+.m-ipt {
     margin-top: 10px;
   }
+
   .m-sigle-btn {
     display: block;
     text-align: center;
     padding: .4rem;
+
     button {
       background-color: #5677fc;
       width: 100%;
@@ -549,9 +587,11 @@ code {
   color: #f03e3e;
   border: 1px solid #f2ddcb;
 }
-.hide{
+
+.hide {
   display: none;
 }
+
 .block-i {
   display: block !important;
   transition: all .3s ease-in-out;

@@ -22,9 +22,9 @@ const removePending = (config) => {
 
 const service = axios.create({
   baseURL: 'http://train.ksmedtech.com/backend',
-  headers:{
-    'Content-Type':'application/x-www-form-urlencoded'
-},
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
   // 请求后的数据处理
   transformResponse: [function (data) {
     return data

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import data from './data.json';
+import data from './data.json'
 let index = 0
 let index2 = 0
 let index3 = 0
@@ -63,10 +63,10 @@ let street = data[index].childs[index2].childs[index3].childs.map(res => {
   return res.name
 })
 
-import HeaderTop from '@/components/HeaderTop';
-import { getRegis } from '@/api/lession';
+import HeaderTop from '@/components/HeaderTop'
+import { getRegis } from '@/api/lession'
 export default {
-  name: "complete",
+  name: 'complete',
   data () {
     return {
       switchVal: 1,
@@ -129,9 +129,10 @@ export default {
   },
   methods: {
     // 获取参数信息
-    getParams() {
-      let regUser =  /^[a-z][a-z0-9_]{5,20}$/i, _this = this;
-      let regEmail =  /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/i;
+    getParams () {
+      let regUser = /^[a-z][a-z0-9_]{5,20}$/i
+      let _this = this
+      let regEmail= /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/i
 
       if(_this.userName.length < 1 || _this.userName.length > 20 || !regUser.test(_this.userName)) {
         _this.toggleError(true, '用户名无效')
@@ -174,9 +175,9 @@ export default {
     },
 
     // 错误信息的提示
-    toggleError(show, msg) {
+    toggleError (show, msg) {
       this.showErr = show
-      if(show) {
+      if (show) {
         this.errMsg = msg
       } else {
         this.errMsg = ''
@@ -184,27 +185,27 @@ export default {
     },
 
     // 注册
-    async doRegister() {
+    async doRegister () {
       let params = this.getParams()
       let ret = await getRegis(params)
-      if(ret && ret.flag) {
+      if (ret && ret.flag) {
         this.$router.push({
           name: 'home'
         })
       }
     },
 
-    handlerArea() {
+    handlerArea () {
       this.areaVisible = true
     },
-    handlerStreet() {
+    handlerStreet () {
       if (this.slotstree[0].values.length === 0) {
         this.streetString = '无可选街道'
         return
       }
       this.streetVisible = true
     },
-    onValuesChange(picker, values) {
+    onValuesChange (picker, values) {
       let one = values[0]
       let two = values[1]
       let three = values[2]
@@ -235,11 +236,11 @@ export default {
       this.areaString = values.join(',')
       // console.log(this.areaString)
     },
-    onStreeChange(picker, values) {
+    onStreeChange (picker, values) {
       this.streetString = values.join(',')
     }
   }
-};
+}
 </script>
 
 <style>

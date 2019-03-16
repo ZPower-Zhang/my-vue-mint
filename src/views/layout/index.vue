@@ -1,9 +1,9 @@
 <template>
-  <div class="main-container">
-    <section class="app-main">
-      <transition name="component-fade">
-        <keep-alive :include="cachedViews">
-          <router-view :key="key"></router-view>
+  <div class='main-container'>
+    <section class='app-main'>
+      <transition name='component-fade'>
+        <keep-alive :include='cachedViews'>
+          <router-view :key='key'></router-view>
         </keep-alive>
       </transition>
     </section>
@@ -12,10 +12,10 @@
 
 <script>
 export default {
-  name: "layout",
+  name: 'layout',
   components: {},
   computed: {
-    cachedViews() {
+    cachedViews () {
       return this.$store.state.tagsView.cachedViews;
     },
     key() {

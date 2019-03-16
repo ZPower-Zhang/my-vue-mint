@@ -29,10 +29,10 @@
   </div>
 </template>
 <script>
-import userImg from "@/assets/img/我的.png";
+import userImg from "@/assets/img/user.png";
 export default {
   name: "header-top",
-  data() {
+  data () {
     return {
       imgUser: userImg,
       showBLink: true,
@@ -40,7 +40,7 @@ export default {
       showDrop: false
     };
   },
-  props:{
+  props: {
     showBack: {
       type: Boolean,
       default: true
@@ -56,9 +56,9 @@ export default {
   },
   components: {},
   created() {
-    this.showBLink = this.showBack || false;
+    this.showBLink = this.showBack || false
     this.showUser = this.showU;
-    this.showTitle = this.showTtl || '';
+    this.showTitle = this.showTtl || ''
   },
   methods: {
     toggle() {
@@ -67,4 +67,3 @@ export default {
   }
 };
 </script>
-

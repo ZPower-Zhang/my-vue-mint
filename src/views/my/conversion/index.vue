@@ -1,35 +1,35 @@
 <template>
-  <div style="position:relative;">
-    <HeaderTop :showBack="showBack" :showTtl="showTtl" :showU="showU"></HeaderTop>
-    <div class="code-ipt-box">
-      <input type="text" class="conversion-ipt" placeholder="请输入兑换码" v-model="conversionCode">
-      <mt-button type="default" size="small" @click="doConversion">兑换</mt-button>
+  <div style='position:relative;'>
+    <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
+    <div class='code-ipt-box'>
+      <input type='text' class='conversion-ipt' placeholder='请输入兑换码' v-model='conversionCode'>
+      <mt-button type='default' size='small' @click='doConversion'>兑换</mt-button>
     </div>
   </div>
 </template>
 
 <script>
-import HeaderTop from "@/components/HeaderTop";
+import HeaderTop from '@/components/HeaderTop'
 import { getAuthcdkey } from '@/api/lession'
 export default {
-  name: "conversion",
+  name: 'conversion',
   data() {
     return {
       showU: false,
       showBack: true,
-      showTtl: "课程兑换",
+      showTtl: '课程兑换',
       conversionCode: null
-    };
+    }
   },
   components: {
     HeaderTop
   },
-  mounted() {},
+  mounted () {},
   methods: {
     // 兑换
     async doConversion() {
       if (!this.conversionCode) {
-        alert("请输入兑换码");
+        alert('请输入兑换码');
         return false;
       }
 
@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .code-ipt-box {
   margin: 30px 20px;
   text-align: center;
@@ -63,4 +63,3 @@ export default {
   }
 }
 </style>
-

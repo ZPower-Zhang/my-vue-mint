@@ -7,19 +7,29 @@
 <script>
 import HeaderTop from '@/components/HeaderTop'
 export default {
-  name: "mcollect",
+  name: 'mcollect',
   data () {
     return {
       showU: false,
       showBack: true,
-      showTtl: "我的收藏"
+      showTtl: "我的收藏",
+      dataList: []
     };
   },
   components: {
     HeaderTop
   },
-  mounted() {},
-  methods: {}
+  mounted () {
+    this.getList()
+  },
+  methods: {
+    async getList () {
+      let ret = await getMyCollectionList({})
+      if (ret && ret.flag) {
+        this.dataList = ret.data.list || []
+      }
+    }
+  }
 };
 </script>
 
