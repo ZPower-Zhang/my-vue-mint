@@ -13,6 +13,7 @@ const getMyCollectionList = (params) => service.get('getMyCollectionList', {para
 const getWxPay = (params) => service.get('wxpay', {params}) // 支付
 const getWxRepay = (params) => service.get('wxrepay', {params}) // 重新支付
 const getConsult = (params) => service.post('consult', params) // 咨询
+const getCollection = (params) => service.get('collection', {params}) // 收藏
 
 export {
   getSendSMS,
@@ -27,5 +28,6 @@ export {
   getMyCollectionList,
   getWxPay,
   getWxRepay,
-  getConsult
+  getConsult,
+  getCollection
 }

@@ -34,6 +34,12 @@ export const routers = [
         name: 'order',
         component: () => import('@/views/course/order'),
         meta: { title: 'order', icon: 'lock', noCache: false, admin: false }
+      },
+      {
+        path: 'lists',
+        name: 'lists',
+        component: () => import('@/views/course/lists'),
+        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
       }
     ]
   },

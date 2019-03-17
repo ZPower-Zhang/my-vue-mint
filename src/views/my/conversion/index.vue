@@ -13,7 +13,7 @@ import HeaderTop from '@/components/HeaderTop'
 import { getAuthcdkey } from '@/api/lession'
 export default {
   name: 'conversion',
-  data() {
+  data () {
     return {
       showU: false,
       showBack: true,
@@ -28,17 +28,25 @@ export default {
   methods: {
     // 兑换
     async doConversion() {
-      if (!this.conversionCode) {
+      let _this = this
+      if (!_this.conversionCode) {
         alert('请输入兑换码');
         return false;
       }
 
       let ret = await getAuthcdkey({
-        cdkey: this.conversionCode
+        cdkey: _this.conversionCode
       })
 
       if (ret && ret.flag) {
-        
+        alert(ret.msg)
+        if (ret.ret == '200') {
+          _this.$router.push({
+            name: 'home'
+          })
+        }
+      } else {
+        alert(ret.msg)
       }
     }
   }

@@ -15,10 +15,10 @@
         <img :src='videoImg' alt srcset style='width: 50px;height: 50px'>
         <h4>课程视频</h4>
       </a>
-      <a href='http://' target='_self'>
+      <router-link to="/course/lists">
         <img :src='trainImg' alt srcset style='width: 50px;height: 50px'>
         <h4>线下培训</h4>
-      </a>
+      </router-link>
       <a href='http://' target='_self'>
         <img :src='guideImg' alt srcset style='width: 50px;height: 50px'>
         <h4>科研指导</h4>
@@ -47,7 +47,7 @@
           </div>
         </router-link>
       </div>
-      <router-link to="" class='panel-content'>
+      <router-link to="/course/lists" class='panel-load-more'>
         <h3>查看更多</h3>
       </router-link>
     </section>
@@ -62,7 +62,7 @@ import imgConsult from '@/assets/img/行业资讯.png'
 import HeaderTop from '@/components/HeaderTop'
 import { getHome } from '@/api/lession'
 export default {
-  name: 'hindex',
+  name: 'home',
   data() {
     return {
       videoImg: imgVideo,

@@ -1,9 +1,9 @@
 <template>
-  <div style='position:relative;'>
-    <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
-    <div class='g-intro'>
-      <div class='m-hd-cover'>
-        <img :src='imgVideo' alt srcset>
+<div style='position:relative;'>
+  <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
+  <div class='g-intro'>
+    <div class='m-hd-cover'>
+      <img :src='imgVideo' alt srcset>
       </div>
       <div class='m-md-tab'>
         <mt-navbar v-model='selected'>
@@ -29,36 +29,59 @@
             </div>
           </mt-tab-container-item>
           <mt-tab-container-item id='2'>
-          <div v-html='plan'></div>
+            <div v-html='plan'></div>
           </mt-tab-container-item>
-<!--           <mt-tab-container-item id='3'>
+          <!--           <mt-tab-container-item id='3'>
             <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/>
           </mt-tab-container-item> -->
           <mt-tab-container-item id='4'>
             <!-- <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/> -->
             <div style='margin:0 auto; width:250px; height:400px;'>
-                <img :src='classImgURL' alt srcset>
-                <h3>长按识别二维码，加入本培训课后交流微信群</h3>
+              <img :src='classImgURL' alt srcset>
+              <h3>长按识别二维码，加入本培训课后交流微信群</h3>
             </div>
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
     </div>
     <div class='m-ft'>
-      <div class='ft-three'>收藏</div>
+      <div class='ft-three' @click="doGetCollect">{{isCollectTtl}}</div>
       <div class='ft-consult'>咨询</div>
-      <div class='ft-apply'>
-        <a href='/course/order'>立即报名</a>
+      <div class='ft-apply' @click="doPayNow()">
+        <a href='javascript:void(0);'>{{applyTitle}}</a>
       </div>
     </div>
+    <mt-popup v-model="popupVisible" popup-transition="popup-fade" position="bottom" class="p-popup-pay">
+      <div>
+        <span>课程名称</span>
+        <span>{{title}}</span>
+      </div>
+      <div>
+        <span>课程原价</span>
+        <span class="origin-price">￥{{Orig_fee/100}}</span>
+      </div>
+      <div>
+        <span>实际支付</span>
+        <span class="pay-price">￥{{total_fee/100}}</span>
+      </div>
+      <div class="sigle-btn-pay" @click="payNow">
+        <div class="btn-pay">立即支付</div>
+      </div>
+    </mt-popup>
   </div>
 </template>
 
 <script>
-import videoImg from '@/assets/img/v2_pnrxn5.jpg';
-import excelPng from '@/assets/img/v2_pnte53.png';
+import videoImg from '@/assets/img/v2_pnrxn5.jpg'
+import excelPng from '@/assets/img/v2_pnte53.png'
 import HeaderTop from '@/components/HeaderTop'
-import { getProinfo } from '@/api/lession'
+import {
+  getWxPay,
+  getCollection
+} from '@/api/lession'
+import {
+  getProinfo
+} from '@/api/lession'
 export default {
   name: 'intro',
   data() {
@@ -78,32 +101,124 @@ export default {
       collectionCount: 0,
       introduction: '',
       plan: '',
-      classImgURL: ''
+      classImgURL: '',
+      popupVisible: false,
+      proid: null,
+      applyTitle: '立即报名',
+      isCollect: '',
+      isCollectTtl: '收藏'
     }
   },
   components: {
     HeaderTop
   },
-  created () {
-    let proid = this.$route.query.data
-    console.log(proid)
-    this.getinfo(proid)
+  created() {
+    this.proid = this.$route.query.data
+    this.getinfo(this.proid)
 
   },
   methods: {
-    async getinfo (id) {
-      let ret = await getProinfo({proid:id})
-      if(ret && ret.flag) {
-        this.imgVideo = ret.data.bImgURL
-        this.title = ret.data.body
-        this.total_fee = ret.data.total_fee
-        this.Orig_fee = ret.data.Orig_fee
-        this.number = ret.data.number
-        this.buyCount = ret.data.buyCount
-        this.collectionCount = ret.data.collectionCount
-        this.introduction = ret.data.introduction
-        this.plan = ret.data.plan
-        this.classImgURL = ret.data.classImgURL
+    async getinfo(id) {
+      let _this = this
+      let ret = await getProinfo({
+        proid: id
+      })
+      if (ret && ret.flag) {
+        let data = ret.data || {}
+        _this.imgVideo = data.bImgURL || ''
+        _this.title = data.body || ''
+        _this.total_fee = data.total_fee || ''
+        _this.Orig_fee = data.Orig_fee || ''
+        _this.number = data.number || ''
+        _this.buyCount = data.buyCount || ''
+        _this.collectionCount = data.collectionCount || ''
+        _this.introduction = data.introduction || ''
+        _this.plan = data.plan || ''
+        _this.classImgURL = data.classImgURL || ''
+        _this.isBuyed = data.is_buyed || ''
+        _this.isCollect = data.is_collectioned || ''
+        if (_this.isBuyed == '1') {
+          _this.applyTitle = '已经报名'
+        } else {
+          _this.applyTitle = '立即报名'
+        }
+        if (_this.isCollect == '1') {
+          _this.isCollectTtl = '取消收藏'
+        } else {
+          _this.isCollectTtl = '收藏'
+        }
+      }
+    },
+
+    doPayNow() {
+      let _this = this
+      if (_this.isBuyed == '1') {
+        return false
+      }
+      _this.popupVisible = true
+    },
+
+    async payNow() {
+      let _this = this
+      let ret = await getWxPay({
+        proid: _this.proid
+      })
+      if (ret && ret.flag) {
+        let data = ret.data
+        _this.callpay(data)
+      }
+    },
+
+    onBridgeReady(data) {
+      WeixinJSBridge.invoke(
+        'getBrandWCPayRequest', {
+          appId: data.appid, //公众号名称，由商户传入
+          timeStamp: data.timeStamp, //时间戳，自1970年以来的秒数
+          nonceStr: data.nonceStr, //随机串
+          package: data.package, //预支付id
+          signType: data.signType, //微信签名方式
+          paySign: data.paySign //微信签名
+        },
+        function (res) {
+          //支付成功后返回 get_brand_wcpay_request:ok
+          if (res.err_msg == "get_brand_wcpay_request:ok") {
+            window.location.reload()
+          } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+
+          } else if (res.err_msg == "get_brand_wcpay_request:fail") {
+            alert("支付失败!");
+          }
+        }
+      );
+    },
+
+    callpay(data) {
+      let _this = this
+      if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+        } else if (document.attachEvent) {
+          document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+          document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+        }
+      } else {
+        _this.onBridgeReady(data);
+      }
+    },
+
+    async doGetCollect () {
+      let _this = this
+      let ret = await getCollection({
+        proid: _this.proid
+      })
+      if (ret && ret.flag) {
+        let data = ret.data || {}
+        _this.isCollect = data.is_collectioned || ''
+        if (_this.isCollect == '1') {
+          _this.isCollectTtl = '取消收藏'
+        } else {
+          _this.isCollectTtl = '收藏'
+        }
       }
     }
   }

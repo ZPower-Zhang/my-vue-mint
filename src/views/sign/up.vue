@@ -1,8 +1,7 @@
 <template>
   <div style="position:relative;">
     <HeaderTop :showBack="showBack" :showTtl="showTtl" :showU="showU"></HeaderTop>
-    <div class="g-signUp">
-      
+    <div class="g-signUp">      
       <div class="error-box" :class="{'block-i': showErr}">
         <i class="mintui mintui-field-warning"></i>
         {{errMsg}}
@@ -29,11 +28,11 @@
 import HeaderTop from '@/components/HeaderTop'
 import { getSendSMS, getAuthSMS } from '@/api/lession'
 export default {
-  name: "signup",
+  name: 'signup',
   components: {
     HeaderTop
   },
-  data() {
+  data () {
     return {
       showU: false,
       showBack: true,
@@ -44,20 +43,21 @@ export default {
       errMsg: ''
     }
   },
-  mounted() {},
+  mounted () {},
   methods: {
     // 获取验证码
     async getCode() {
       let _this = this
       let num = this.phoneNum
       let testPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/i;
-      if(!num) {
+      if (!num) {
         _this.toggleError(true, '请输入手机号')
         return false
       }
 
-      if(!testPhone.test(num)) {
+      if (!testPhone.test(num)) {
         _this.toggleError(true, '手机号格式错误')
+        return false
       }
 
       
@@ -66,12 +66,12 @@ export default {
       let ret = await getSendSMS({
         phone: num
       })
-      if(ret && ret.flag) {
+      if (ret && ret.flag) {
       }
     },
 
     // 错误信息的提示
-    toggleError(show, msg) {
+    toggleError (show, msg) {
       this.showErr = show
       if(show) {
         this.errMsg = msg
@@ -110,12 +110,17 @@ export default {
       })
 
       if (ret && ret.flag) {
-        this.$router.push({
-          path: 'complete',
-          query:{
-            phoneNum: num
-          }
-        })
+        let dataRet = ret.ret || ''
+        if (dataRet == '200') {
+          _this.$router.push({
+            path: 'complete',
+            query:{
+              phoneNum: num
+            }
+          })
+        } else {
+          _this.toggleError(true, ret.msg)
+        }
       }
     }
   }

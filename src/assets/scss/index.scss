@@ -177,6 +177,7 @@ code {
   width: 100px;
   z-index: 9999;
   text-align: center;
+  color: #fff;
   background-color: #26a2ff;
   font-weight: 600;
   border-radius: 3px;
@@ -223,10 +224,17 @@ code {
   margin-top: .1rem;
 
   .list-ttl {
-    padding: 14px 15px 10px;
-    font-size: .14rem;
+    padding: 5px 15px 10px;
+    font-size: .24rem;
     color: #999;
     text-align: left;
+  }
+
+  .panel-load-more {
+    h3 {
+      padding: 5px 15px 10px;
+      font-size: .28rem;
+    }
   }
 
   .ul-panel {
@@ -273,6 +281,7 @@ code {
           text-align: left;
           color: #404040;
           font-weight: 400;
+          min-height: 36px;
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
@@ -595,4 +604,60 @@ code {
 .block-i {
   display: block !important;
   transition: all .3s ease-in-out;
+}
+
+.p-popup-pay {
+  // position: relative;
+  width: 100%;
+  div {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: #999;
+    border-bottom:  1px solid #8c8c8c;
+    white-space: nowrap;
+    &:first-of-type {
+      border-top: 1px solid #8c8c8c;
+    }
+    &:last-of-type {
+      border-bottom: none !important;
+    }
+    span {
+      display: inline-block;
+      vertical-align: bottom;
+      &:first-of-type {
+        width: 20%;
+        text-align: left;
+      }
+      &:last-of-type {
+        text-align: right;
+        width: 80%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 10px;
+      }
+    }
+    .pay-price {
+      font-size: 16px;
+      color: #ff9800;
+    }
+    .origin-price {
+      color: #000;
+    }
+  }
+  .sigle-btn-pay {
+    position: relative;
+    padding: 10px 20px;
+    .btn-pay {
+      width: 100%;
+      padding: 5px 8px;
+      font-size: 18px;
+      text-align: center;
+      background-color: #ff9800;
+      color: #fff;
+      border-radius: 10%/100%;
+      border: 1px solid #ff9800;
+    }
+  }
 }

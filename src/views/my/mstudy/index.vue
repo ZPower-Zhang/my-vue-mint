@@ -1,70 +1,27 @@
 <template>
-  <div style='position:relative;'>
-    <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
-    <section class='g-list'>
-      <div class='ul-panel'>
-        <a
-          href='/course/intro?data=121'
-          target='_self'
-          rel='noopener noreferrer'
-          class='panel-content'
-        >
-          <div class='panel-hd'>
-            <img src='https://pro.modao.cc/uploads4/images/2839/28392980/v2_pjascw.png' alt srcset>
-          </div>
-          <div class='panel-bd'>
-            <h3>多病共存条件下的全科医生临床技能淬炼课程</h3>
-            <p class='u-p'>杨浦区中心医院 主持</p>
-            <p class='u-price'>
-              <span class='u-unit'>￥</span>2999
-              <span class='u-count'>27人参与</span>
-            </p>
-          </div>
-        </a>
-        <a
-          href='/course/intro?data=122'
-          target='_self'
-          rel='noopener noreferrer'
-          class='panel-content'
-        >
-          <div class='panel-hd'>
-            <img src='https://pro.modao.cc/uploads4/images/2839/28392980/v2_pjascw.png' alt srcset>
-          </div>
-          <div class='panel-bd'>
-            <h3>多病共存条件下的全科医生临床技能淬炼课程</h3>
-            <p class='u-p'>杨浦区中心医院 主持</p>
-            <p class='u-price'>
-              <span class='u-unit'>￥</span>2999
-              <span class='u-count'>27人参与</span>
-            </p>
-          </div>
-        </a>
-        <a
-          href='/course/intro?data=123'
-          target='_self'
-          rel='noopener noreferrer'
-          class='panel-content'
-        >
-          <div class='panel-hd'>
-            <img src='https://pro.modao.cc/uploads4/images/2839/28392980/v2_pjascw.png' alt srcset>
-          </div>
-          <div class='panel-bd'>
-            <h3>多病共存条件下的全科医生临床技能淬炼课程</h3>
-            <p class='u-p'>杨浦区中心医院 主持</p>
-            <p class='u-price'>
-              <span class='u-unit'>￥</span>2999
-              <span class='u-count'>27人参与</span>
-            </p>
-          </div>
-        </a>
-      </div>
-    </section>
-  </div>
+<div style='position:relative;'>
+  <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
+  <section class='g-list'>
+    <div class='ul-panel' v-for='(item,index) in lists' :key='index'>
+      <router-link :to="'/course/intro?data='+item.proid" class='panel-content'>
+        <div class='panel-hd'>
+          <img v-bind:src='item.sImgURL' alt srcset>
+        </div>
+        <div class='panel-bd'>
+          <h3>{{item.body}}}</h3>
+          <p class='u-p'>{{item.speaker}} 主持</p>
+        </div>
+      </router-link>
+    </div>
+  </section>
+</div>
 </template>
 
 <script>
 import HeaderTop from '@/components/HeaderTop';
-import { getMyLearningList } from '@/api/lession'
+import {
+  getMyLearningList
+} from '@/api/lession'
 export default {
   name: 'study',
   data() {
@@ -72,7 +29,7 @@ export default {
       showU: false,
       showBack: true,
       showTtl: '我的学习',
-      dataList: []
+      lists: []
     };
   },
   components: {
@@ -85,7 +42,7 @@ export default {
     async getList() {
       let ret = await getMyLearningList({})
       if (ret && ret.flag) {
-        this.dataList = ret.data.list || []
+        this.lists = ret.data.lists || []
       }
     }
   }

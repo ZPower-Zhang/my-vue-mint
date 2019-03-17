@@ -62,6 +62,13 @@ export default {
   },
   methods: {
     toggle() {
+      let curUid = this.getCookie('uid'), _this = this;
+      if (!curUid) {
+        _this.$router.push({
+          name: 'up'
+        })
+        return false
+      }
       this.showDrop = !this.showDrop;
     }
   }

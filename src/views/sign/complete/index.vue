@@ -134,28 +134,28 @@ export default {
       let _this = this
       let regEmail= /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/i
 
-      if(_this.userName.length < 1 || _this.userName.length > 20 || !regUser.test(_this.userName)) {
+      if (_this.userName.length < 1 || _this.userName.length > 20 || !regUser.test(_this.userName)) {
         _this.toggleError(true, '用户名无效')
         return false
       } else {
         _this.toggleError(false)
       }
 
-      if(!regEmail.test(_this.email)) {
+      if (!regEmail.test(_this.email)) {
         _this.toggleError(true, '邮箱无效')
         return false
       } else {
         _this.toggleError(false)
       }
 
-      if(_this.company.length < 2) {
+      if (_this.company.length < 2) {
         _this.toggleError(true, '公司名称无效')
         return false
       } else {
         _this.toggleError(false)
       }
 
-      if(_this.code.length < 6) {
+      if (_this.code.length < 6) {
         _this.toggleError(true, '证书编码无效')
         return false
       } else {
@@ -186,12 +186,60 @@ export default {
 
     // 注册
     async doRegister () {
-      let params = this.getParams()
+      let _this = this;
+      let regUser = /^[a-z][a-z0-9_]{5,20}$/i
+      let regEmail= /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/i
+
+      if (_this.userName.length < 1 ) {
+        _this.toggleError(true, '用户名无效')
+        return false
+      } else {
+        _this.toggleError(false)
+      }
+
+      if (!regEmail.test(_this.email)) {
+        _this.toggleError(true, '邮箱无效')
+        return false
+      } else {
+        _this.toggleError(false)
+      }
+
+      if (_this.company.length < 2) {
+        _this.toggleError(true, '公司名称无效')
+        return false
+      } else {
+        _this.toggleError(false)
+      }
+
+      // if (_this.code.length < 6) {
+      //   _this.toggleError(true, '证书编码无效')
+      //   return false
+      // } else {
+      //   _this.toggleError(false)
+      // }
+
+      let params = {
+        phone: _this.phoneNum,
+        userName: _this.userName,
+        email: _this.email,
+        province: _this.areaString,
+        company: _this.company,
+        code: _this.code
+      }
+
       let ret = await getRegis(params)
       if (ret && ret.flag) {
-        this.$router.push({
-          name: 'home'
-        })
+        let dataRet = ret.ret || '', dataUid = JSON.parse(ret.data).uid || ''
+        if (dataRet == '200') {
+          if (res.uid) {
+            _this.setCookie('uid', dataUid, 1)
+          }
+          _this.$router.push({
+            name: 'home'
+          })
+        } else {
+          _this.toggleError(true, ret.msg)
+        }
       }
     },
 

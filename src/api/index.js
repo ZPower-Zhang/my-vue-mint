@@ -85,7 +85,10 @@ service.interceptors.response.use(
         flag: true,
         code: 0,
         data: ret.data || null,
-        msg: ret.msg
+        msg: ret.msg || ''
+      }
+      if (ret.ret) {
+        obj.ret = ret.ret
       }
       return obj
     } else {

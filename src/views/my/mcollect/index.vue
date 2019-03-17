@@ -1,35 +1,50 @@
 <template>
-  <div style="position:relative;">
-    <HeaderTop :showBack="showBack" :showTtl="showTtl" :showU="showU"></HeaderTop>
-  </div>
+<div style="position:relative;">
+  <HeaderTop :showBack="showBack" :showTtl="showTtl" :showU="showU"></HeaderTop>
+  <section class='g-list' >
+    <div class='ul-panel' v-for='(item,index) in lists' :key='index'>
+      <router-link :to="'/course/intro?data='+item.proid" class='panel-content'>
+        <div class='panel-hd'>
+          <img v-bind:src='item.sImgURL' alt srcset>
+          </div>
+          <div class='panel-bd'>
+            <h3>{{item.body}}}</h3>
+            <p class='u-p'>{{item.speaker}} 主持</p>
+          </div>
+      </router-link>
+    </div>
+  </section>
+</div>
 </template>
 
 <script>
 import HeaderTop from '@/components/HeaderTop'
+import {
+  getMyCollectionList
+} from '@/api/lession'
 export default {
   name: 'mcollect',
-  data () {
+  data() {
     return {
       showU: false,
       showBack: true,
       showTtl: "我的收藏",
-      dataList: []
+      lists: []
     };
   },
   components: {
     HeaderTop
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
   methods: {
-    async getList () {
+    async getList() {
       let ret = await getMyCollectionList({})
       if (ret && ret.flag) {
-        this.dataList = ret.data.list || []
+        this.lists = ret.data.lists || []
       }
     }
   }
 };
 </script>
-
