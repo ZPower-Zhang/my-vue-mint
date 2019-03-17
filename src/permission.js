@@ -64,7 +64,7 @@ async function getAuthId () {
   })
 }
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach((to, from, next) => {
   // if (isWeiXin()) {
     if (infoCookie.indexOf('openid=') < 0) {
         var code = getQueryString('code')
