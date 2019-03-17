@@ -47,28 +47,38 @@
     </div>
     <div class='m-ft'>
       <div class='ft-three' @click="doGetCollect">{{isCollectTtl}}</div>
-      <div class='ft-consult'>咨询</div>
+      <div class='ft-consult' @click="doConsult">咨询</div>
       <div class='ft-apply' @click="doPayNow()">
         <a href='javascript:void(0);'>{{applyTitle}}</a>
       </div>
     </div>
+
     <mt-popup v-model="popupVisible" popup-transition="popup-fade" position="bottom" class="p-popup-pay">
-      <div>
+      <div class="pay-div">
         <span>课程名称</span>
         <span>{{title}}</span>
       </div>
-      <div>
+      <div class="pay-div">
         <span>课程原价</span>
         <span class="origin-price">￥{{Orig_fee/100}}</span>
       </div>
-      <div>
+      <div class="pay-div">
         <span>实际支付</span>
         <span class="pay-price">￥{{total_fee/100}}</span>
       </div>
-      <div class="sigle-btn-pay" @click="payNow">
+      <div class="pay-div sigle-btn-pay" @click="payNow">
         <div class="btn-pay">立即支付</div>
       </div>
     </mt-popup>
+
+    <mt-popup v-model="popupVisibleConsult" popup-transition="popup-fade" position="bottom" class="p-popup-pay">
+      <mt-field label="联系方式" placeholder="请输入联系方式" type="text" v-model="phoneEmail"></mt-field>
+      <mt-field label="咨询内容" placeholder="请输入咨询内容" type="textarea" rows="4" v-model="consutContent"></mt-field>
+      <div class="sigle-btn-pay" @click="toToConsult">
+        <mt-button class="btn-pay" size="normal">提交</mt-button>
+      </div>
+    </mt-popup>
+
   </div>
 </template>
 
@@ -78,7 +88,8 @@ import excelPng from '@/assets/img/v2_pnte53.png'
 import HeaderTop from '@/components/HeaderTop'
 import {
   getWxPay,
-  getCollection
+  getCollection,
+  getConsult
 } from '@/api/lession'
 import {
   getProinfo
@@ -104,12 +115,15 @@ export default {
       plan: '',
       classImgURL: '',
       popupVisible: false,
+      popupVisibleConsult: false,
       proid: null,
       applyTitle: '立即报名',
       isCollect: '',
       isCollectTtl: '收藏',
       on_sale: '0',
-      seen:false
+      seen: false,
+      phoneEmail: '',
+      consutContent: ''
     }
   },
   components: {
@@ -157,10 +171,10 @@ export default {
     },
 
     doPayNow() {
-    if (window.window.document.cookie.indexOf('uid') < 0) {
-      alert('请先注册')
-      return false
-    }
+      if (window.window.document.cookie.indexOf('uid') < 0) {
+        alert('请先注册')
+        return false
+      }
       let _this = this
       if (_this.isBuyed == '1') {
         return false
@@ -217,11 +231,11 @@ export default {
       }
     },
 
-    async doGetCollect () {
-    if (window.window.document.cookie.indexOf('uid') < 0) {
-      alert('请先注册')
-      return false
-    }
+    async doGetCollect() {
+      if (window.window.document.cookie.indexOf('uid') < 0) {
+        alert('请先注册')
+        return false
+      }
       let _this = this
       let ret = await getCollection({
         proid: _this.proid
@@ -237,15 +251,26 @@ export default {
       }
     },
 
-    consult() {
+    async doConsult() {
       if (window.window.document.cookie.indexOf('uid') < 0) {
         alert('请先注册')
         return false
       }
+      this.popupVisibleConsult = true
+    },
 
-
-
-      
+    async toToConsult() {
+      let _this = this
+      let ret = await getConsult({
+        proid: _this.proid,
+        contect: _this.phoneEmail,
+        commont: _this.consutContent
+      })
+      if (ret && ret.flag) {
+        _this.phoneEmail = ''
+        _this.consutContent = ''
+        _this.popupVisibleConsult = false
+      }
     }
   }
 };
