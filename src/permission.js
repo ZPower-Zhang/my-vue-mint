@@ -72,7 +72,7 @@ router.beforeEach((to, from, next) => {
           var ksappid = 'wx38ea6f6bb9ada0ee'
           var local = window.location.href
           let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + ksappid + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_userinfo&state=getopenid#wechat_redirect'
-          next(false)
+          // next(false)
           window.location.href = url
         }else{
               getAuthId().then(res => {
@@ -80,7 +80,7 @@ router.beforeEach((to, from, next) => {
                 setCookie('uid', res.uid || '', 1)
               }
               if (res.openid) {
-                alert(res.openid)
+                // alert(res.openid)
                 setCookie('openid', res.openid || '', 1)
               }
               if (res.unionid){
