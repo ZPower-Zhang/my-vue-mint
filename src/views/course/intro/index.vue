@@ -157,7 +157,7 @@ export default {
     },
 
     doPayNow() {
-          if (window.window.document.cookie.indexOf('uid') < 0) {
+    if (window.window.document.cookie.indexOf('uid') < 0) {
       alert('请先注册')
       return false
     }
@@ -235,6 +235,17 @@ export default {
           _this.isCollectTtl = '收藏'
         }
       }
+    },
+
+    consult() {
+      if (window.window.document.cookie.indexOf('uid') < 0) {
+        alert('请先注册')
+        return false
+      }
+
+
+
+      
     }
   }
 };
