@@ -229,16 +229,18 @@ export default {
 
       let ret = await getRegis(params)
       if (ret && ret.flag) {
-        let dataRet = ret.ret || '', dataUid = JSON.parse(ret.data).uid || ''
+        let dataRet = ret.ret || '', dataUid = ret.data.uid || ''
         if (dataRet == '200') {
-          if (res.uid) {
+          if (dataUid) {
+            alert('注册成功！')
             _this.setCookie('uid', dataUid, 1)
+            _this.$router.push({
+              name: 'home'
+            })
           }
-          _this.$router.push({
-            name: 'home'
-          })
         } else {
           _this.toggleError(true, ret.msg)
+          return false
         }
       }
     },

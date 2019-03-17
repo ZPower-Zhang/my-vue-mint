@@ -171,15 +171,15 @@ export default {
     },
 
     doPayNow() {
-      if (window.window.document.cookie.indexOf('uid') < 0) {
-        alert('请先注册')
-        return false
-      }
+
       let _this = this
       if (_this.isBuyed == '1') {
         return false
       }
-
+      if (window.document.cookie.indexOf('uid=') < 0) {
+        alert('请先注册')
+        return false
+      }
       _this.popupVisible = true
     },
 
@@ -232,7 +232,7 @@ export default {
     },
 
     async doGetCollect() {
-      if (window.window.document.cookie.indexOf('uid') < 0) {
+      if (window.document.cookie.indexOf('uid=') < 0) {
         alert('请先注册')
         return false
       }
@@ -252,7 +252,7 @@ export default {
     },
 
     async doConsult() {
-      if (window.window.document.cookie.indexOf('uid') < 0) {
+      if (window.document.cookie.indexOf('uid=') < 0) {
         alert('请先注册')
         return false
       }
