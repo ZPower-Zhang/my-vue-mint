@@ -28,15 +28,12 @@ function setCookie (name, value, days) {
 }
 
 function goToWx (func) {
-  var ksappid = 'wx38ea6f6bb9ada0ee'
   var code = getQueryString('code')
-  var local = window.location.href
   if (code == null || code == '') {
-    // console.log(local)
-    // snsapi_userinfo   snsapi_base
-    let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + ksappid + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_userinfo&state=getopenid#wechat_redirect'
-    // console.log(url)
-    window.location.href = url
+      var ksappid = 'wx38ea6f6bb9ada0ee'
+      var local = window.location.href
+      let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + ksappid + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_userinfo&state=getopenid#wechat_redirect'
+      window.location.href = url
   } else {
     getAuthId().then(res => {
       if (res.uid) {
@@ -67,17 +64,37 @@ async function getAuthId () {
   })
 }
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // if (isWeiXin()) {
-    // if (infoCookie.indexOf('openid=') < 0) {
     if (infoCookie.indexOf('openid=') < 0) {
-      goToWx(next)
+        var code = getQueryString('code')
+        if (code == null || code == '') {
+          var ksappid = 'wx38ea6f6bb9ada0ee'
+          var local = window.location.href
+          let url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + ksappid + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_userinfo&state=getopenid#wechat_redirect'
+          next(false)
+          window.location.href = url
+        }else{
+              getAuthId().then(res => {
+              if (res.uid) {
+                setCookie('uid', res.uid || '', 1)
+              }
+              if (res.openid) {
+                alert(res.openid)
+                setCookie('openid', res.openid || '', 1)
+              }
+              if (res.unionid){
+                setCookie('unionid', res.unionid || '', 1)
+              }
+            })
+              next()
+              return
+        }
+      // goToWx(next)
     } else {
       next()
     }
-  // } else {
-  //   next()
-  // }
+
 })
 
 router.afterEach((to, from) => {})
