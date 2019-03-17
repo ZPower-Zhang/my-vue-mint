@@ -8,7 +8,7 @@
           <img v-bind:src='item.sImgURL' alt srcset>
         </div>
           <div class='panel-bd'>
-            <h3>{{item.body}}}</h3>
+            <h3>{{item.body}}</h3>
             <p class='u-p'>{{item.speaker}} 主持</p>
             <!-- <p class='u-price'>
               <span class='u-unit'>￥</span>2999

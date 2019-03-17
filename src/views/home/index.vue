@@ -11,17 +11,18 @@
       </mt-swipe>
     </section>
     <section class='g-nav'>
-      <a href='http://' target='_self'>
-        <img :src='videoImg' alt srcset style='width: 50px;height: 50px'>
-        <h4>课程视频</h4>
-      </a>
       <router-link to="/course/lists">
         <img :src='trainImg' alt srcset style='width: 50px;height: 50px'>
         <h4>线下培训</h4>
       </router-link>
+
       <a href='http://' target='_self'>
         <img :src='guideImg' alt srcset style='width: 50px;height: 50px'>
         <h4>科研指导</h4>
+      </a>
+      <a href='http://' target='_self'>
+        <img :src='videoImg' alt srcset style='width: 50px;height: 50px'>
+        <h4>课程视频</h4>
       </a>
       <a href='http://' target='_self'>
         <img :src='consultImg' alt srcset style='width: 50px;height: 50px'>
@@ -37,11 +38,11 @@
             <img v-bind:src='item2.sImgURL' alt srcset>
           </div>
           <div class='panel-bd'>
-            <h3>{{item2.body}}}</h3>
+            <h3>{{item2.body}}</h3>
             <p class='u-p'>{{item2.speaker}} 主持</p>
             <p class='u-price'>
-              <span class='u-unit'>￥</span>
-              {{item2.total_fee/100}}
+              <span class='u-unit'>￥{{item2.total_fee/100}}</span>
+              <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span>
               <span class='u-count'>剩余{{item2.number-item2.buyCount}}个名额</span>
             </p>
           </div>

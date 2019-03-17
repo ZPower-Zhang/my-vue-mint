@@ -10,7 +10,7 @@
           <mt-tab-item id='1'>培训介绍</mt-tab-item>
           <mt-tab-item id='2'>培训安排</mt-tab-item>
           <!-- <mt-tab-item id='3'>评论列表</mt-tab-item> -->
-          <mt-tab-item id='4'>课后交流</mt-tab-item>
+          <mt-tab-item id='4' v-if="seen">课后交流</mt-tab-item>
         </mt-navbar>
 
         <!-- tab-container -->
@@ -18,11 +18,12 @@
           <mt-tab-container-item id='1'>
             <h3>{{title}}</h3>
             <div class='inline-course'>
-              <span>¥{{total_fee/100}}</span>
-              <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span>
+              <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span>
+              <!-- <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span> -->
+              <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
               <span>{{buyCount}}人购买</span>
               <span>剩余{{number-buyCount}}个名额</span>
-              <span>{{collectionCount}}人点赞</span>
+              <span>{{collectionCount}}人收藏</span>
             </div>
             <div class='text-intro'>
               <div v-html='introduction'></div>
@@ -106,7 +107,9 @@ export default {
       proid: null,
       applyTitle: '立即报名',
       isCollect: '',
-      isCollectTtl: '收藏'
+      isCollectTtl: '收藏',
+      on_sale: '0',
+      seen:false
     }
   },
   components: {
@@ -131,14 +134,17 @@ export default {
         _this.Orig_fee = data.Orig_fee || ''
         _this.number = data.number || ''
         _this.buyCount = data.buyCount || ''
-        _this.collectionCount = data.collectionCount || ''
+        _this.collectionCount = data.collectionCount || 0
         _this.introduction = data.introduction || ''
         _this.plan = data.plan || ''
         _this.classImgURL = data.classImgURL || ''
         _this.isBuyed = data.is_buyed || ''
         _this.isCollect = data.is_collectioned || ''
+        _this.on_sale = data.on_sale || ''
+
         if (_this.isBuyed == '1') {
           _this.applyTitle = '已经报名'
+          _this.seen = true
         } else {
           _this.applyTitle = '立即报名'
         }
@@ -151,10 +157,15 @@ export default {
     },
 
     doPayNow() {
+          if (window.window.document.cookie.indexOf('uid') < 0) {
+      alert('请先注册')
+      return false
+    }
       let _this = this
       if (_this.isBuyed == '1') {
         return false
       }
+
       _this.popupVisible = true
     },
 
@@ -207,6 +218,10 @@ export default {
     },
 
     async doGetCollect () {
+    if (window.window.document.cookie.indexOf('uid') < 0) {
+      alert('请先注册')
+      return false
+    }
       let _this = this
       let ret = await getCollection({
         proid: _this.proid
