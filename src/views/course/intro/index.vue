@@ -101,9 +101,9 @@ export default {
       imgVideo: videoImg,
       pngExcel: excelPng,
       selected: '1',
-      showU: false,
-      showBack: true,
-      showTtl: '课程详情',
+      // showU: false,
+      // showBack: false,
+      // showTtl: '课程详情',
       title: '',
       total_fee: '',
       Orig_fee: '',
@@ -127,7 +127,7 @@ export default {
     }
   },
   components: {
-    HeaderTop
+    // HeaderTop
   },
   created() {
     this.proid = this.$route.query.data
@@ -147,7 +147,7 @@ export default {
         _this.total_fee = data.total_fee || ''
         _this.Orig_fee = data.Orig_fee || ''
         _this.number = data.number || ''
-        _this.buyCount = data.buyCount || ''
+        _this.buyCount = data.buyCount || 0
         _this.collectionCount = data.collectionCount || 0
         _this.introduction = data.introduction || ''
         _this.plan = data.plan || ''
@@ -177,12 +177,10 @@ export default {
         return false
       }
       if (window.document.cookie.indexOf('uid=') < 0) {
-        alert('请先注册')
+        // alert('请先注册')
         _this.$router.push({
-            path: 'signup',
-            query:{
-            }
-          })
+          name: 'up'
+        })
         return false
       }
       _this.popupVisible = true
@@ -240,12 +238,9 @@ export default {
             let _this = this
 
       if (window.document.cookie.indexOf('uid=') < 0) {
-        alert('请先注册')
-                _this.$router.push({
-            path: 'signup',
-            query:{
-            }
-          })
+        _this.$router.push({
+          name: 'up'
+        })
         return false
       }
       let ret = await getCollection({
@@ -263,13 +258,11 @@ export default {
     },
 
     async doConsult() {
+        let _this = this
       if (window.document.cookie.indexOf('uid=') < 0) {
-        alert('请先注册')
         _this.$router.push({
-            path: 'signup',
-            query:{
-            }
-          })
+          name: 'up'
+        })
         return false
       }
       this.popupVisibleConsult = true

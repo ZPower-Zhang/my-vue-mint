@@ -1,6 +1,6 @@
 <template>
   <div style="position:relative;">
-    <mt-header :title="showTitle">
+    <mt-header :title="showTitle" style="background-color:#ffffff">
       <router-link to="/" slot="left" v-show="showBLink">
         <mt-button icon="back"></mt-button>
       </router-link>
@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import userImg from "@/assets/img/user.png";
+import userImg from "@/assets/img/user1.png";
 export default {
   name: "header-top",
   data () {
