@@ -2,7 +2,7 @@ import axios from 'axios'
 export default {
  
     wxShowMenu:  function(link,title,desc,imgUrl) {
-        alert(link)
+        // alert(link)
         axios.get('http://train.ksmedtech.com/backend/getShare',{
     params:
         { //请求参数
@@ -12,7 +12,7 @@ export default {
             // alert(link)
             wx.config({
  
-                debug: true, //生产环境需要关闭debug模式
+                debug: false, //生产环境需要关闭debug模式
  
                 appId: getMsg.appId, //appId通过微信服务号后台查看
  

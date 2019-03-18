@@ -1,6 +1,12 @@
 <template>
+
 <div style='position:relative;'>
+  <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
+  <img :src='Imgback' height="20" width="20" slot="icon" >
+  <!-- 带自定义图标 -->
+</mt-button>
   <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
+
   <div class='g-intro'>
     <div class='m-hd-cover'>
       <img :src='imgVideo' alt srcset>
@@ -16,14 +22,14 @@
         <!-- tab-container -->
         <mt-tab-container v-model='selected'>
           <mt-tab-container-item id='1'>
-            <h3>{{title}}</h3>
+            <h2>{{title}}</h2>
             <div class='inline-course'>
               <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span>
               <!-- <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span> -->
               <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
-              <span>{{buyCount}}人购买</span>
-              <span>剩余{{number-buyCount}}个名额</span>
-              <span>{{collectionCount}}人收藏</span>
+              <span style="font-size:.32rem">{{buyCount}}人购买</span>
+              <span style="font-size:.32rem">剩余{{number-buyCount}}个名额</span>
+              <span style="font-size:.32rem">{{collectionCount}}人收藏</span>
             </div>
             <div class='text-intro'>
               <div v-html='introduction'></div>
@@ -83,9 +89,10 @@
 </template>
 
 <script>
-import videoImg from '@/assets/img/v2_pnrxn5.jpg'
-import excelPng from '@/assets/img/v2_pnte53.png'
+// import videoImg from '@/assets/img/v2_pnrxn5.jpg'
+// import excelPng from '@/assets/img/v2_pnte53.png'
 import HeaderTop from '@/components/HeaderTop'
+import backImg from '@/assets/img/返回2.png'
 import {
   getWxPay,
   getCollection,
@@ -98,8 +105,9 @@ export default {
   name: 'intro',
   data() {
     return {
-      imgVideo: videoImg,
-      pngExcel: excelPng,
+      Imgback:backImg,
+      imgVideo: '',
+      pngExcel: '',
       selected: '1',
       // showU: false,
       // showBack: false,
@@ -266,6 +274,13 @@ export default {
         return false
       }
       this.popupVisibleConsult = true
+    },
+    gohome() {
+              let _this = this
+        _this.$router.push({
+          name: 'home'
+        })
+        return false
     },
 
     async toToConsult() {
