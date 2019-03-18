@@ -178,6 +178,11 @@ export default {
       }
       if (window.document.cookie.indexOf('uid=') < 0) {
         alert('请先注册')
+        _this.$router.push({
+            path: 'signup',
+            query:{
+            }
+          })
         return false
       }
       _this.popupVisible = true
@@ -232,11 +237,17 @@ export default {
     },
 
     async doGetCollect() {
+            let _this = this
+
       if (window.document.cookie.indexOf('uid=') < 0) {
         alert('请先注册')
+                _this.$router.push({
+            path: 'signup',
+            query:{
+            }
+          })
         return false
       }
-      let _this = this
       let ret = await getCollection({
         proid: _this.proid
       })
@@ -254,6 +265,11 @@ export default {
     async doConsult() {
       if (window.document.cookie.indexOf('uid=') < 0) {
         alert('请先注册')
+        _this.$router.push({
+            path: 'signup',
+            query:{
+            }
+          })
         return false
       }
       this.popupVisibleConsult = true
