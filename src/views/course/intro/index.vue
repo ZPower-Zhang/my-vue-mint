@@ -1,6 +1,6 @@
 <template>
 <div style='position:relative;'>
-  <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
+  <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
   <div class='g-intro'>
     <div class='m-hd-cover'>
       <img :src='imgVideo' alt srcset>
@@ -89,11 +89,11 @@ import HeaderTop from '@/components/HeaderTop'
 import {
   getWxPay,
   getCollection,
-  getConsult
+  getConsult,
+  getProinfo,
+  getShare
 } from '@/api/lession'
-import {
-  getProinfo
-} from '@/api/lession'
+import wxconfig from '@/api/share'
 export default {
   name: 'intro',
   data() {
@@ -132,7 +132,6 @@ export default {
   created() {
     this.proid = this.$route.query.data
     this.getinfo(this.proid)
-
   },
   methods: {
     async getinfo(id) {
@@ -155,7 +154,6 @@ export default {
         _this.isBuyed = data.is_buyed || ''
         _this.isCollect = data.is_collectioned || ''
         _this.on_sale = data.on_sale || ''
-
         if (_this.isBuyed == '1') {
           _this.applyTitle = '已经报名'
           _this.seen = true
@@ -167,6 +165,8 @@ export default {
         } else {
           _this.isCollectTtl = '收藏'
         }
+
+        wxconfig.wxShowMenu(window.location.href,_this.title,"全科与公卫协同创新培训平台",_this.imgVideo)
       }
     },
 

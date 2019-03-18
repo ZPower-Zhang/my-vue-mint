@@ -14,6 +14,7 @@ const getWxPay = (params) => service.get('wxpay', { params }) // 支付
 const getWxRepay = (params) => service.get('wxrepay', { params }) // 重新支付
 const getConsult = (params) => service.get('consult', { params }) // 咨询
 const getCollection = (params) => service.get('collection', { params }) // 收藏
+const getShare = (params) => service.get('getShare', { params }) // 分享
 
 export {
   getSendSMS,
@@ -29,5 +30,6 @@ export {
   getWxPay,
   getWxRepay,
   getConsult,
-  getCollection
+  getCollection,
+  getShare
 }
