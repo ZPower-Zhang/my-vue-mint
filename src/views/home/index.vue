@@ -1,6 +1,6 @@
 <template>
   <div style='position:relative;'>
-    <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
+    <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
     <section class='g-swiper'>
       <mt-swipe :auto='4000'>
         <mt-swipe-item v-for='(item, index) in bannerList' :key='index'>

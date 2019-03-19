@@ -12,7 +12,10 @@
       </div>
       <div class="m-ipt">
         <input type="text" v-model="validateCode" class="ipt-width" placeholder="短信验证码">
-        <div class="send-code" @click="getCode">获取验证码</div>
+        <div class="send-code" v-show="show" @click="getCode">获取验证码</div>
+        <div class="send-code" v-show="!show">{{count}} s</div>
+<!--         <span v-show="show" @click="getCode">获取验证码</span>
+        <span v-show="!show" class="count">{{count}} s</span> -->
       </div>
 
       <div class="m-sigle-btn">
@@ -40,7 +43,10 @@ export default {
       phoneNum: null,
       validateCode: null,
       showErr: false,
-      errMsg: ''
+      errMsg: '',
+       show: true,
+       count: '',
+       timer: null
     }
   },
   mounted () {},
@@ -63,10 +69,36 @@ export default {
       
       _this.toggleError(false)
 
+      const TIME_COUNT = 60;
+           if (!this.timer) {
+             this.count = TIME_COUNT;
+             this.show = false;
+             this.timer = setInterval(() => {
+             if (this.count > 0 && this.count <= TIME_COUNT) {
+               this.count--;
+              } else {
+               this.show = true;
+               clearInterval(this.timer);
+               this.timer = null;
+              }
+             }, 1000)
+            }
+
       let ret = await getSendSMS({
         phone: num
       })
       if (ret && ret.flag) {
+        console.log(ret)
+
+        if (ret.ret == '200'){
+        let statusCode = ret.data.statusCode || ''
+        let statusMsg = ret.data.statusMsg || ''
+          console.log(statusCode)
+          console.log(statusMsg)
+         _this.toggleError(true, statusMsg)
+        }else{
+          _this.toggleError(true, ret.msg)
+        }
       }
     },
 
