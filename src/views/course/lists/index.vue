@@ -33,16 +33,16 @@ export default {
   name: 'lists',
   data() {
     return {
-      // showDrop: false,
-      // showU: true,
-      // showBack: true,
-      // showTtl: '线下培训',
+      showDrop: false,
+      showU: true,
+      showBack: true,
+      showTtl: '线下培训',
       bannerList: [],
       lists: []
     }
   },
   components: {
-    // HeaderTop
+    HeaderTop
   },
   mounted() {
     this.home();

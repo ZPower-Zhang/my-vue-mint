@@ -3,7 +3,6 @@
 <div style='position:relative;'>
   <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
   <img :src='Imgback' height="20" width="20" slot="icon" >
-  <!-- 带自定义图标 -->
 </mt-button>
   <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
 
@@ -34,6 +33,27 @@
             <div class='text-intro'>
               <div v-html='introduction'></div>
             </div>
+
+            <section class='g-list'>
+            <div class='list-ttl'>{{'专家介绍'}}</div>
+            <div class='ul-panel' v-for='(item,index) in teachersList' :key='index'>
+                    <div class='panel-content' @click="hhh(item)">
+                      <div class='panel-hd'>
+                        <img v-bind:src='item.headerImageUrl' alt srcset>
+                        <!-- <h3>{{item.name}}</h3> -->
+                      </div>
+                            <p class='p-u' v-if="!item.show" style="margin:20px;padding: 0px;
+                              overflow: hidden;
+                              -webkit-line-clamp: 3; 
+                              -webkit-box-orient: vertical;
+                              display: -webkit-box;
+                              ">{{item.name}}     {{item.introduction}}</p>
+                         <p v-if="item.show">{{item.name}}  </br>  {{item.introduction}}</p>
+                      <span style="color: red;position:absolute; right: 0;bottom:0">{{item.show?"收起":"展开"}}</span>
+                      </div>
+            </div>
+            </section>
+          <div style="height: 50px"></div>
           </mt-tab-container-item>
           <mt-tab-container-item id='2'>
             <div v-html='plan'></div>
@@ -89,10 +109,9 @@
 </template>
 
 <script>
-// import videoImg from '@/assets/img/v2_pnrxn5.jpg'
-// import excelPng from '@/assets/img/v2_pnte53.png'
+
 import HeaderTop from '@/components/HeaderTop'
-import backImg from '@/assets/img/返回2.png'
+import backImg from '@/assets/img/返回.png'
 import {
   getWxPay,
   getCollection,
@@ -101,10 +120,12 @@ import {
   getShare
 } from '@/api/lession'
 import wxconfig from '@/api/share'
+import { MessageBox } from 'mint-ui';
 export default {
   name: 'intro',
   data() {
     return {
+      teachersList:[],
       Imgback:backImg,
       imgVideo: '',
       pngExcel: '',
@@ -162,6 +183,7 @@ export default {
         _this.isBuyed = data.is_buyed || ''
         _this.isCollect = data.is_collectioned || ''
         _this.on_sale = data.on_sale || ''
+        _this.teachersList = data.teachers || []
         if (_this.isBuyed == '1') {
           _this.applyTitle = '已经报名'
           _this.seen = true
@@ -259,8 +281,10 @@ export default {
         _this.isCollect = data.is_collectioned || ''
         if (_this.isCollect == '1') {
           _this.isCollectTtl = '取消收藏'
+          MessageBox('提示', '收藏成功');
         } else {
           _this.isCollectTtl = '收藏'
+          MessageBox('提示', '取消收藏成功');
         }
       }
     },
@@ -282,6 +306,11 @@ export default {
         })
         return false
     },
+    hhh (item) {
+      item.show = !item.show
+    }
+
+    ,
 
     async toToConsult() {
       let _this = this

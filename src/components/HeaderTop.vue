@@ -2,7 +2,10 @@
   <div style="position:relative;">
     <mt-header :title="showTitle" style="background-color:#ffffff">
       <router-link to="/" slot="left" v-show="showBLink">
-        <mt-button icon="back"></mt-button>
+        <!-- <mt-button icon="back"></mt-button> -->
+          <mt-button>
+          <img :src='Imgback' height="20" width="20" slot="icon" >
+        </mt-button>
       </router-link>
       <mt-button slot="right" @click="toggle" v-show="showUser">
         <img :src="imgUser" alt srcset style="width: 20px">
@@ -30,10 +33,13 @@
 </template>
 <script>
 import userImg from "@/assets/img/user1.png";
+import backImg from '@/assets/img/返回.png'
+
 export default {
   name: "header-top",
   data () {
     return {
+      Imgback:backImg,
       imgUser: userImg,
       showBLink: true,
       showTitle: '',
