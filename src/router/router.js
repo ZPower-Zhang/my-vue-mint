@@ -40,6 +40,12 @@ export const routers = [
         name: 'lists',
         component: () => import('@/views/course/lists'),
         meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+      },
+      {
+        path: 'contents',
+        name: 'contents',
+        component: () => import('@/views/course/contents'),
+        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
       }
     ]
   },

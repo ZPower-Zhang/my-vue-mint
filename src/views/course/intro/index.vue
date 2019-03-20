@@ -26,9 +26,9 @@
               <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span>
               <!-- <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span> -->
               <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
-              <span style="font-size:.32rem">{{buyCount}}人购买</span>
-              <span style="font-size:.32rem">剩余{{number-buyCount}}个名额</span>
-              <span style="font-size:.32rem">{{collectionCount}}人收藏</span>
+              <span style="font-size:.30rem">{{buyCount}}人购买</span>
+              <span style="font-size:.30rem">剩余{{number-buyCount}}个名额</span>
+              <span style="font-size:.30rem">{{collectionCount}}人收藏</span>
             </div>
             <div class='text-intro'>
               <div v-html='introduction'></div>
@@ -209,7 +209,8 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
         _this.$router.push({
-          name: 'up'
+          name: 'up',
+          params: {comeurl: window.location.href}
         })
         return false
       }

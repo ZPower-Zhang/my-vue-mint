@@ -43,6 +43,8 @@
 
 <script>
 import data from './data.json'
+import { MessageBox } from 'mint-ui';
+
 let index = 0
 let index2 = 0
 let index3 = 0
@@ -232,7 +234,7 @@ export default {
         let dataRet = ret.ret || '', dataUid = ret.data.uid || ''
         if (dataRet == '200') {
           if (dataUid) {
-            alert('注册成功！')
+            MessageBox('提示', '注册成功！');
             _this.setCookie('uid', dataUid, 1)
             _this.$router.push({
               name: 'home'

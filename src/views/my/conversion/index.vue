@@ -11,6 +11,8 @@
 <script>
 import HeaderTop from '@/components/HeaderTop'
 import { getAuthcdkey } from '@/api/lession'
+import { MessageBox } from 'mint-ui';
+
 export default {
   name: 'conversion',
   data () {
@@ -30,7 +32,8 @@ export default {
     async doConversion() {
       let _this = this
       if (!_this.conversionCode) {
-        alert('请输入兑换码');
+        // alert('请输入兑换码');
+        MessageBox('提示', '请输入兑换码');
         return false;
       }
 
@@ -39,14 +42,16 @@ export default {
       })
 
       if (ret && ret.flag) {
-        alert(ret.msg)
+        // alert(ret.msg)
+        MessageBox('提示', ret.msg);
         if (ret.ret == '200') {
           _this.$router.push({
             name: 'home'
           })
         }
       } else {
-        alert(ret.msg)
+        // alert(ret.msg)
+        MessageBox('提示', ret.msg);
       }
     }
   }

@@ -95,7 +95,9 @@ export default {
         let statusMsg = ret.data.statusMsg || ''
           console.log(statusCode)
           console.log(statusMsg)
-         _this.toggleError(true, statusMsg)
+          if (statusCode!="000000") {
+           _this.toggleError(true, statusMsg)  
+          }
         }else{
           _this.toggleError(true, ret.msg)
         }

@@ -1,6 +1,6 @@
 <template>
   <div style="position:relative;">
-    <mt-header :title="showTitle" style="background-color:#ffffff">
+    <mt-header :title="showTitle" style="background-color:#ffffff;color: black">
       <router-link to="/" slot="left" v-show="showBLink">
         <!-- <mt-button icon="back"></mt-button> -->
           <mt-button>
