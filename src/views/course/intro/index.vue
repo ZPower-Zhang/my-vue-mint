@@ -208,9 +208,10 @@ export default {
       }
       if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
+        // console.log(_this.proid)
         _this.$router.push({
           name: 'up',
-          params: {comeurl: window.location.href}
+          params: {comproid: _this.proid}
         })
         return false
       }

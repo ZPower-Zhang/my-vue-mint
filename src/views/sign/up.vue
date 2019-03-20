@@ -21,6 +21,7 @@
       <div class="m-sigle-btn">
         <!-- <router-link to="/sign/complete"> -->
         <mt-button type="default" size="small" @click="goToNext">下一步</mt-button>
+        <!-- <mt-button type="default" size="small" @click="goToNext2">test</mt-button> -->
         <!-- </router-link> -->
       </div>
     </div>
@@ -146,17 +147,33 @@ export default {
       if (ret && ret.flag) {
         let dataRet = ret.ret || ''
         if (dataRet == '200') {
+          let coproid=_this.$route.params.comproid||"no"
           _this.$router.push({
             path: 'complete',
             query:{
-              phoneNum: num
+              phoneNum: num,
+              comproid:comproid
             }
           })
         } else {
           _this.toggleError(true, ret.msg)
         }
       }
-    }
+    },    async goToNext2() {
+      
+          let _this = this
+          let coproidd=_this.$route.params.comproid||"no"
+          _this.$router.push({
+            path: 'complete',
+            query:{
+              // phoneNum: num,
+              comproid:coproidd
+            }
+          })
+    },
+
+
+
   }
 };
 </script>

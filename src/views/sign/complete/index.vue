@@ -36,6 +36,7 @@
 
       <div class="m-sigle-btn">
         <mt-button type="default" size="small" @click="doRegister">注册</mt-button>
+        <!-- <mt-button type="default" size="small" @click="doRegister2">test</mt-button> -->
       </div>
     </div>
   </div>
@@ -236,15 +237,41 @@ export default {
           if (dataUid) {
             MessageBox('提示', '注册成功！');
             _this.setCookie('uid', dataUid, 1)
-            _this.$router.push({
-              name: 'home'
-            })
+            let comproid=_this.$route.query.comproid||"no"
+            // console.log(comproid)
+            if(comproid!="no"){
+              _this.$router.push({
+                  path: '/course/intro',
+                  query:{data:comproid}
+              })
+            }else{
+              _this.$router.push({
+                  name: 'home',
+              })
+            }
+
           }
         } else {
           _this.toggleError(true, ret.msg)
           return false
         }
       }
+    },    //测试
+    async doRegister2 () {
+      let _this = this;
+
+            let comproid=_this.$route.query.comproid||"no"
+            // console.log(comproid)
+            if(comproid!="no"){
+              _this.$router.push({
+                  path: '/course/intro',
+                  query:{data:comproid}
+              })
+            }else{
+              _this.$router.push({
+                  name: 'home',
+              })
+            }
     },
 
     handlerArea () {
