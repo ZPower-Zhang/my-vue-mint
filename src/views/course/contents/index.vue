@@ -1,16 +1,21 @@
 <template>
 
 <div style='position:relative;'>
+  <!-- <div> -->
 <!--   <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
   <img :src='Imgback' height="20" width="20" slot="icon" >
 </mt-button> -->
   <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
-
-            <h1 style="font-size: .50rem;margin:auto;">{{title}}</h1>
-            <div class='inline-course'>
-              <span style="color: #f68f40;font-size: .30rem;">来源：{{comefrom}}</span>
+<!-- style="font-size: .40rem;margin:auto;" -->
+<!-- <div style=""> -->
+  <div style="margin: 10px;padding: 10px;">
+            <h2 style="line-height: 1.4;margin-bottom:14px;font-size: 1.5em;font-weight: bold;">{{title}}</h2>
+            <div style="display:table-cell; 
+    vertical-align:bottom;">
+              <span style="color: #576b95;
+    text-decoration: none;">{{comefrom}}</span>
               <!-- <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span> -->
-              <span style="font-size:.20rem;margin:auto;text-align: right;float:right">发布时间:{{updateTime}}</span>
+              <span style="font-size:.20rem; color:gray;margin:auto;text-align: right;">{{updateTime}}</span>
             </div>
             <div class='text-intro'>
               <div v-html='introduction'></div>
@@ -18,8 +23,8 @@
 <!--     <div class='m-ft2'>
       <div class="ft-all" @click="doGetCollect">{{isCollectTtl}}</div>
     </div> -->
-            
-
+            </div>
+</div>
   </div>
 </template>
 

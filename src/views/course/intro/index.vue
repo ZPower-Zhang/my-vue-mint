@@ -49,7 +49,7 @@
                               display: -webkit-box;
                               ">{{item.name}}     {{item.introduction}}</p>
                          <p v-if="item.show">{{item.name}}  </br>  {{item.introduction}}</p>
-                      <span style="color: red;position:absolute; right: 0;bottom:0">{{item.show?"收起":"展开"}}</span>
+                      <span style="color: #ff9800;position:absolute; right: 0;bottom:0">{{item.show?"收起":"展开"}}</span>
                       </div>
             </div>
             </section>
@@ -271,7 +271,8 @@ export default {
 
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
-          name: 'up'
+          name: 'up',
+          params: {comproid: _this.proid}
         })
         return false
       }
@@ -295,14 +296,15 @@ export default {
         let _this = this
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
-          name: 'up'
+          name: 'up',
+          params: {comproid: _this.proid}
         })
         return false
       }
       this.popupVisibleConsult = true
     },
     gohome() {
-              let _this = this
+        let _this = this
         _this.$router.push({
           name: 'home'
         })
