@@ -52,9 +52,13 @@ export default {
     this.proType = this.$route.query.data
     // console.log(this.proType)
     if(this.proType=="XXPX"){
+          this.showTtl="线下培训"
           this.xxpx();
     }else if (this.proType=="YNZX") {
+          this.showTtl="业内资讯"
           this.ynzx();
+    }else if (this.proType=="XSSP"){
+          this.showTtl="线上视频"
     }
   },
   data() {
@@ -62,7 +66,7 @@ export default {
       showDrop: false,
       showU: true,
       showBack: true,
-      showTtl: '线下培训',
+      showTtl: '',
       lists: [],
       proType:"",
     }

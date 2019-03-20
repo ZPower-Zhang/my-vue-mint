@@ -42,9 +42,21 @@ export const routers = [
         meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
       },
       {
+        path: 'kyzdlists',
+        name: 'lists',
+        component: () => import('@/views/course/kyzdlists'),
+        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+      },
+      {
         path: 'contents',
         name: 'contents',
         component: () => import('@/views/course/contents'),
+        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+      },
+      {
+        path: 'hindex',
+        name: 'hindex',
+        component: () => import('@/views/course/hindex'),
         meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
       }
     ]

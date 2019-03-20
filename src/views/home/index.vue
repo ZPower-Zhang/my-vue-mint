@@ -16,10 +16,10 @@
         <h4>线下培训</h4>
       </router-link>
 
-      <a href='http://' target='_self'>
+      <router-link to="/course/kyzdlists">
         <img :src='guideImg' alt srcset style='width: 50px;height: 50px'>
         <h4>科研指导</h4>
-      </a>
+      </router-link>
       <a href='http://' target='_self'>
         <img :src='videoImg' alt srcset style='width: 50px;height: 50px'>
         <h4>课程视频</h4>
@@ -33,6 +33,7 @@
     <section class='g-list' v-for='(item,index) in lists' :key='index'>
       <div class='list-ttl'>{{item.header}}</div>
       <div class='ul-panel' v-for='(item2,index2) in item.list' :key='index2'>
+
         <router-link v-if="item2.proType=='XXPX'" :to="'/course/intro?data='+item2.proid" class='panel-content'>
           <div class='panel-hd'>
             <img v-bind:src='item2.sImgURL' alt srcset>
@@ -55,19 +56,26 @@
           </div>
           <div class='panel-bd'>
             <h3>{{item2.body}}</h3>
-            <!-- <p class='u-p'>{{item2.comefrom}}</p> -->
             <p class='u-price'>
-              <!-- <span class='u-unit'>￥{{item2.total_fee/100}}</span> -->
-              <!-- <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span> -->
               <span class='u-count'>{{item2.comefrom}}</span>
             </p>
           </div>
         </router-link>
 
-
+        <router-link v-if="item2.proType=='KYZD'" :to="'/course/hindex?data='+item2.proid" class='panel-content'>
+          <div class='panel-hd'>
+            <img v-bind:src='item2.sImgURL' alt srcset>
+          </div>
+          <div class='panel-bd'>
+            <h3>{{item2.body}}</h3>
+          </div>
+        </router-link>
 
       </div>
-      <router-link :to="'/course/lists?data='+item.proType" class='panel-load-more'>
+      <router-link v-if="item.proType!='KYZD'" :to="'/course/lists?data='+item.proType" class='panel-load-more'>
+        <h3>查看更多</h3>
+      </router-link>
+      <router-link v-if="item.proType=='KYZD'" :to="'/course/kyzdlists?data='+item.proType" class='panel-load-more'>
         <h3>查看更多</h3>
       </router-link>
     </section>
@@ -96,7 +104,7 @@ export default {
       consultImg: imgConsult,
       showDrop: false,
       showU: true,
-      showBack: false,
+      showBack: true,
       // showTtl: '全科与公卫培训平台',
       showTtl: '',
       bannerList: [],

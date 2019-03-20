@@ -504,7 +504,37 @@ code {
     background-color: #28b8a1;
   }
 }
+.m-ft3 {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 7.5rem;
+  height: 45px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  display: flex;
+  flex-wrap: nowrap;
+  box-sizing: border-box;
 
+  >div {
+    display: block;
+    flex-basis: 5rem;
+    text-align: center;
+    line-height: 45px;
+    color: #fff;
+    font-size: 16px;
+  }
+
+  .ft-three {
+    flex-shrink: 6;
+    background-color: #26a2ff;
+  }
+
+  .ft-consult {
+    flex-shrink: 5;
+    background-color: #ff9800;
+  }
+}
 .m-pay {
   border: none;
 

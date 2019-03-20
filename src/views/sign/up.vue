@@ -147,12 +147,12 @@ export default {
       if (ret && ret.flag) {
         let dataRet = ret.ret || ''
         if (dataRet == '200') {
-          let coproid=_this.$route.params.comproid||"no"
+          let comproidd=_this.$route.params.comproid||"no"
           _this.$router.push({
             path: 'complete',
             query:{
               phoneNum: num,
-              comproid:comproid
+              comproid:comproidd
             }
           })
         } else {

@@ -3,8 +3,8 @@
     <mt-header :title="showTitle" style="background-color:#ffffff;color: black">
       <router-link to="/" slot="left" v-show="showBLink">
         <!-- <mt-button icon="back"></mt-button> -->
-          <mt-button>
-          <img :src='Imgback' height="20" width="20" slot="icon" >
+          <mt-button style="left: -10px;top:0px">
+          <img :src='Imgback' height="40px" width="200px" slot="icon">
         </mt-button>
       </router-link>
       <mt-button slot="right" @click="toggle" v-show="showUser">
@@ -33,7 +33,7 @@
 </template>
 <script>
 import userImg from "@/assets/img/user1.png";
-import backImg from '@/assets/img/返回.png'
+import backImg from '@/assets/img/logo3.png'
 
 export default {
   name: "header-top",

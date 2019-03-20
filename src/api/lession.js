@@ -15,8 +15,9 @@ const getWxRepay = (params) => service.get('wxrepay', { params }) // 重新支�
 const getConsult = (params) => service.get('consult', { params }) // 咨询
 const getCollection = (params) => service.get('collection', { params }) // 收藏
 const getShare = (params) => service.get('getShare', { params }) // 分享
-const getXXPXList = (params) => service.get('getXXPXlist', { params }) // 分享
-const getYNZXList = (params) => service.get('getYNZXlist', { params }) // 分享
+const getXXPXList = (params) => service.get('getXXPXlist', { params }) // 线下培训
+const getYNZXList = (params) => service.get('getYNZXlist', { params }) // 业内资讯
+const getKYZDList = (params) => service.get('getKYZDlist', { params }) // 科研指导
 
 export {
   getSendSMS,
@@ -35,5 +36,6 @@ export {
   getCollection,
   getShare,
   getXXPXList,
-  getYNZXList
+  getYNZXList,
+  getKYZDList
 }
