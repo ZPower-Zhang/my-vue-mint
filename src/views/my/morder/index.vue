@@ -34,7 +34,19 @@ import {
   getOrderList
 } from '@/api/lession'
 export default {
-  name: 'morder',
+  name: 'morder',  
+  created(){
+    let _this = this
+    if (window.document.cookie.indexOf('uid=') < 0) {
+        // alert('请先注册')
+        // console.log(_this.proid)
+        _this.$router.push({
+          name: 'up',
+        })
+        return false
+      }
+  }
+  ,
   data() {
     return {
       showU: false,
