@@ -16,14 +16,16 @@
         <h4>线下培训</h4>
       </router-link>
 
-      <router-link to="/course/kyzdlists">
-        <img :src='guideImg' alt srcset style='width: 50px;height: 50px'>
-        <h4>科研指导</h4>
-      </router-link>
+
       <a href='http://' target='_self'>
         <img :src='videoImg' alt srcset style='width: 50px;height: 50px'>
         <h4>课程视频</h4>
       </a>
+      <router-link to="/course/kyzdlists">
+        <img :src='guideImg' alt srcset style='width: 50px;height: 50px'>
+        <h4>科研指导</h4>
+      </router-link>
+
       <router-link to="/course/lists?data=YNZX">
         <img :src='consultImg' alt srcset style='width: 50px;height: 50px'>
         <h4>业内资讯</h4>
@@ -88,10 +90,10 @@
 </template>
 
 <script>
-import imgVideo from '@/assets/img/视频.png'
-import imgTrain from '@/assets/img/线下培训.png'
-import imgGuide from '@/assets/img/科研.png'
-import imgConsult from '@/assets/img/行业资讯.png'
+import imgVideo from '@/assets/img/视频白底.png'
+import imgTrain from '@/assets/img/培训白底.png'
+import imgGuide from '@/assets/img/科研白底.png'
+import imgConsult from '@/assets/img/资讯白底.png'
 import HeaderTop from '@/components/HeaderTop'
 import { getHome } from '@/api/lession'
 export default {

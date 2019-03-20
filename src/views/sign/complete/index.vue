@@ -8,11 +8,11 @@
       </div>
 
       <div class="m-ipt">
-        <input type="text" placeholder="姓名" v-model="userName">
+        <input type="text" placeholder="*姓名" v-model="userName">
       </div>
 
       <div class="m-ipt">
-        <input type="text" placeholder="邮箱" v-model="email">
+        <input type="text" placeholder="*邮箱" v-model="email">
       </div>
 
       <!-- <div class="m-ipt">
@@ -20,20 +20,20 @@
       </div> -->
 
       <div class="page-content">
-      <mt-cell title="省市区:" :value="areaString" is-link @click.native="handlerArea"></mt-cell>
+      <mt-cell title="*省市区:" :value="areaString" is-link @click.native="handlerArea"></mt-cell>
       <mt-popup v-model="areaVisible" class="area-class" position="bottom">
         <mt-picker :slots="slots" @change="onValuesChange"></mt-picker>
       </mt-popup>
     </div>
 
       <div class="m-ipt">
-        <input type="text" placeholder="所在医疗机构" v-model="company">
+        <input type="text" placeholder="*所在医疗机构" v-model="company">
       </div>
 
       <div class="m-ipt">
         <input type="text" placeholder="职业证书编码" v-model="code">
       </div>
-
+      <p style="color: red">提示：" * "为必填项</p>
       <div class="m-sigle-btn">
         <mt-button type="default" size="small" @click="doRegister">注册</mt-button>
         <!-- <mt-button type="default" size="small" @click="doRegister2">test</mt-button> -->
@@ -232,18 +232,29 @@ export default {
 
       let ret = await getRegis(params)
       if (ret && ret.flag) {
-        let dataRet = ret.ret || '', dataUid = ret.data.uid || ''
+        let dataRet = ret.ret || ''
+        console.log(dataRet)
         if (dataRet == '200') {
-          if (dataUid) {
+          let dataUid = ret.data.uid || ''
+          if (dataUid!='') {
             MessageBox('提示', '注册成功！');
             _this.setCookie('uid', dataUid, 1)
-            let comproid=_this.$route.query.comproid||"no"
+            let comproid=_this.$route.query.proid||"no"
+            let comprotype=_this.$route.query.protype||"no"
             // console.log(comproid)
+            // return false
             if(comproid!="no"){
-              _this.$router.push({
-                  path: '/course/intro',
-                  query:{data:comproid}
-              })
+              if(comprotype=="XXPX"){
+                _this.$router.push({
+                    path: '/course/intro',
+                    query:{data:comproid}
+                })
+              }else if (comprotype=="KYZD") {
+                _this.$router.push({
+                    path: '/course/hindex',
+                    query:{data:comproid}
+                })
+              }
             }else{
               _this.$router.push({
                   name: 'home',
@@ -260,13 +271,22 @@ export default {
     async doRegister2 () {
       let _this = this;
 
-            let comproid=_this.$route.query.comproid||"no"
+            let comproid=_this.$route.query.proid||"no"
+            let comprotype=_this.$route.query.protype||"no"
             // console.log(comproid)
+            // return false
             if(comproid!="no"){
-              _this.$router.push({
-                  path: '/course/intro',
-                  query:{data:comproid}
-              })
+              if(comprotype=="XXPX"){
+                _this.$router.push({
+                    path: '/course/intro',
+                    query:{data:comproid}
+                })
+              }else if (comprotype=="KYZD") {
+                _this.$router.push({
+                    path: '/course/hindex',
+                    query:{data:comproid}
+                })
+              }
             }else{
               _this.$router.push({
                   name: 'home',

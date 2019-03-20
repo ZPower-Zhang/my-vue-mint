@@ -147,12 +147,14 @@ export default {
       if (ret && ret.flag) {
         let dataRet = ret.ret || ''
         if (dataRet == '200') {
+          let protypedd=_this.$route.params.comprotype||"no"
           let comproidd=_this.$route.params.comproid||"no"
           _this.$router.push({
             path: 'complete',
             query:{
               phoneNum: num,
-              comproid:comproidd
+              protype:protypedd,
+              proid:comproidd
             }
           })
         } else {
@@ -162,12 +164,14 @@ export default {
     },    async goToNext2() {
       
           let _this = this
-          let coproidd=_this.$route.params.comproid||"no"
+          let protypedd=_this.$route.params.comprotype||"no"
+          let comproidd=_this.$route.params.comproid||"no"
           _this.$router.push({
             path: 'complete',
             query:{
               // phoneNum: num,
-              comproid:coproidd
+              protype:protypedd,
+              proid:comproidd
             }
           })
     },

@@ -211,7 +211,7 @@ export default {
         // console.log(_this.proid)
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid}
+          params: {comproid: _this.proid,comprotype:"XXPX"}
         })
         return false
       }
@@ -272,7 +272,7 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid}
+          params: {comproid: _this.proid,comprotype:"XXPX"}
         })
         return false
       }
@@ -297,7 +297,7 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid}
+          params: {comproid: _this.proid,comprotype:"XXPX"}
         })
         return false
       }

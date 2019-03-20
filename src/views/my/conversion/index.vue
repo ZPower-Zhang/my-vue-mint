@@ -15,6 +15,18 @@ import { MessageBox } from 'mint-ui';
 
 export default {
   name: 'conversion',
+    created(){
+    let _this = this
+    if (window.document.cookie.indexOf('uid=') < 0) {
+        // alert('请先注册')
+        // console.log(_this.proid)
+        _this.$router.push({
+          name: 'up',
+        })
+        return false
+      }
+  }
+  ,
   data () {
     return {
       showU: false,
