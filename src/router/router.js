@@ -43,21 +43,27 @@ export const routers = [
       },
       {
         path: 'kyzdlists',
-        name: 'lists',
+        name: 'kyzdlists',
         component: () => import('@/views/course/kyzdlists'),
-        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+        meta: { title: 'kyzdlists', icon: 'lock', noCache: false, admin: false }
       },
       {
         path: 'contents',
         name: 'contents',
         component: () => import('@/views/course/contents'),
-        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+        meta: { title: 'contents', icon: 'lock', noCache: false, admin: false }
       },
       {
         path: 'hindex',
         name: 'hindex',
         component: () => import('@/views/course/hindex'),
-        meta: { title: 'lists', icon: 'lock', noCache: false, admin: false }
+        meta: { title: 'hindex', icon: 'lock', noCache: false, admin: false }
+      },
+      {
+        path: 'videoView',
+        name: 'videoView',
+        component: () => import('@/views/course/videoView'),
+        meta: { title: 'videoView', icon: 'lock', noCache: false, admin: false }
       }
     ]
   },
