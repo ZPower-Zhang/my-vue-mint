@@ -1,10 +1,10 @@
 <template>
 
 <div style='position:relative;'>
-  <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
+<!--   <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
   <img :src='Imgback' height="20" width="20" slot="icon" >
-</mt-button>
-  <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
+</mt-button> -->
+  <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
 
   <div class='g-intro'>
     <!-- <div class='m-hd-cover'> -->
@@ -12,27 +12,18 @@
               <video-player  class="video-player vjs-custom-skin"
              ref="videoPlayer"
              :options="playerOptions"
-                customEventName="customstatechangedeventname"
-
-                 @play="onPlayerPlay($event)"
-                 @pause="onPlayerPause($event)"
-                 @ended="onPlayerEnded($event)"
-                 @waiting="onPlayerWaiting($event)"
-                 @playing="onPlayerPlaying($event)"
-                 @loadeddata="onPlayerLoadeddata($event)"
-                 @timeupdate="onPlayerTimeupdate($event)"
-                 @canplay="onPlayerCanplay($event)"
-                 @canplaythrough="onPlayerCanplaythrough($event)"
-
-                 @statechanged="playerStateChanged($event)"
-                 @ready="playerReadied">
+             customEventName="customstatechangedeventname"
+             x5-playsinline="" 
+             playsinline="" 
+             webkit-playsinline=""
+             @ready="playerReadied">
         ></video-player>
 
       <!-- </div> -->
       <div class='m-md-tab'>
         <mt-navbar v-model='selected'>
-          <mt-tab-item id='1'>培训介绍</mt-tab-item>
-          <mt-tab-item id='2'>培训安排</mt-tab-item>
+          <mt-tab-item id='1'>课程介绍</mt-tab-item>
+          <mt-tab-item id='2'>课程目录</mt-tab-item>
           <!-- <mt-tab-item id='3'>评论列表</mt-tab-item> -->
           <mt-tab-item id='4' v-if="seen">课后交流</mt-tab-item>
         </mt-navbar>
@@ -46,7 +37,7 @@
               <!-- <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span> -->
               <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
               <span style="font-size:.30rem">{{buyCount}}人购买</span>
-              <span style="font-size:.30rem">剩余{{number-buyCount}}个名额</span>
+              <!-- <span style="font-size:.30rem">剩余{{number-buyCount}}个名额</span> -->
               <span style="font-size:.30rem">{{collectionCount}}人收藏</span>
             </div>
             <div class='text-intro'>
@@ -154,9 +145,9 @@ export default {
       imgVideo: '',
       pngExcel: '',
       selected: '1',
-      // showU: false,
-      // showBack: false,
-      // showTtl: '课程详情',
+      showU: true,
+      showBack: true,
+      showTtl: '',
       title: '',
       total_fee: '',
       Orig_fee: '',
@@ -170,7 +161,7 @@ export default {
       popupVisible: false,
       popupVisibleConsult: false,
       proid: null,
-      applyTitle: '立即报名',
+      applyTitle: '立即购买',
       isCollect: '',
       isCollectTtl: '收藏',
       on_sale: '0',
@@ -190,7 +181,7 @@ export default {
           type: "",
           src: "https://1252348479.vod2.myqcloud.com/92e0c654vodtransgzp1252348479/7f7d469f7447398156688396048/v.f30.mp4?t=5c937465&us=g6Iu56wHSI&sign=5fe862ac937031938b8b5c4aaa5b5c1d" //url地址
         }],
-        poster: "https://surmon-china.github.io/vue-quill-editor/static/images/surmon-1.jpg", //你的封面地址
+        poster: "http://train.ksmedtech.com/static/uploadFile/rwsypxt.png", //你的封面地址
         // width: document.documentElement.clientWidth,
         notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
         controlBar: {
@@ -203,7 +194,7 @@ export default {
     }
   },
   components: {
-    // HeaderTop
+    HeaderTop,
     videoPlayer
   },
   created() {
@@ -233,10 +224,10 @@ export default {
         _this.on_sale = data.on_sale || ''
         _this.teachersList = data.teachers || []
         if (_this.isBuyed == '1') {
-          _this.applyTitle = '已经报名'
+          _this.applyTitle = '已经购买'
           _this.seen = true
         } else {
-          _this.applyTitle = '立即报名'
+          _this.applyTitle = '立即购买'
         }
         if (_this.isCollect == '1') {
           _this.isCollectTtl = '取消收藏'
@@ -320,7 +311,7 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid,comprotype:"XXPX"}
+          params: {comproid: _this.proid,comprotype:"XSSP"}
         })
         return false
       }
@@ -329,13 +320,17 @@ export default {
       })
       if (ret && ret.flag) {
         let data = ret.data || {}
-        _this.isCollect = data.is_collectioned || ''
-        if (_this.isCollect == '1') {
-          _this.isCollectTtl = '取消收藏'
-          MessageBox('提示', '收藏成功');
-        } else {
-          _this.isCollectTtl = '收藏'
-          MessageBox('提示', '取消收藏成功');
+        if(ret.ret=="200"){
+          _this.isCollect = data.is_collectioned || ''
+          if (_this.isCollect == '1') {
+            _this.isCollectTtl = '取消收藏'
+            MessageBox('提示', '收藏成功');
+          } else {
+            _this.isCollectTtl = '收藏'
+            MessageBox('提示', '取消收藏成功');
+          }
+        }else{
+          MessageBox('提示', '收藏失败')
         }
       }
     },
@@ -345,7 +340,7 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid,comprotype:"XXPX"}
+          params: {comproid: _this.proid,comprotype:"XSSP"}
         })
         return false
       }
@@ -372,9 +367,14 @@ export default {
         commont: _this.consutContent
       })
       if (ret && ret.flag) {
+        if(ret.ret=="200"){
         _this.phoneEmail = ''
         _this.consutContent = ''
         _this.popupVisibleConsult = false
+        MessageBox('提示', '咨询已提交')
+        }else{
+        MessageBox('提示', '咨询失败')
+        }
       }
     },
           onPlayerPlay(player) {

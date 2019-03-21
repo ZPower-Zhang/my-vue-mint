@@ -148,6 +148,7 @@ export default {
         proid: _this.proid
       })
       if (ret && ret.flag) {
+        if(ret.ret=="200"){
         let data = ret.data || {}
         _this.isCollect = data.is_collectioned || ''
         if (_this.isCollect == '1') {
@@ -157,6 +158,9 @@ export default {
           _this.isCollectTtl = '收藏'
           MessageBox('提示', '取消收藏成功');
         }
+      }else{
+          MessageBox('提示', '收藏失败');
+      }
       }
     },
 
@@ -192,9 +196,15 @@ export default {
         commont: _this.consutContent
       })
       if (ret && ret.flag) {
+        if(ret.ret=="200"){
+        MessageBox('提示', '咨询已提交');
         _this.phoneEmail = ''
         _this.consutContent = ''
         _this.popupVisibleConsult = false
+      }else{
+        MessageBox('提示', '咨询失败');
+
+        }
       }
     }
   }

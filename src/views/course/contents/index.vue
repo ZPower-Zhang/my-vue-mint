@@ -101,14 +101,16 @@ export default {
         proid: _this.proid
       })
       if (ret && ret.flag) {
-        let data = ret.data || {}
-        _this.isCollect = data.is_collectioned || ''
-        if (_this.isCollect == '1') {
-          _this.isCollectTtl = '取消收藏'
-          MessageBox('提示', '收藏成功');
-        } else {
-          _this.isCollectTtl = '收藏'
-          MessageBox('提示', '取消收藏成功');
+        if(ret.ret=="200"){
+          let data = ret.data || {}
+          _this.isCollect = data.is_collectioned || ''
+          if (_this.isCollect == '1') {
+            _this.isCollectTtl = '取消收藏'
+            MessageBox('提示', '收藏成功');
+          } else {
+            _this.isCollectTtl = '收藏'
+            MessageBox('提示', '取消收藏成功');
+          }
         }
       }
     }
