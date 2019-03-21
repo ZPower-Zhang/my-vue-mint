@@ -1,7 +1,7 @@
 <template>
 
 <div style='position:relative;'>
-  <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
+  <mt-button @click="back" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
   <img :src='Imgback' height="20" width="20" slot="icon" >
 </mt-button>
   <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
@@ -20,7 +20,10 @@
         <!-- tab-container -->
         <mt-tab-container v-model='selected'>
           <mt-tab-container-item id='1'>
-
+            <h2>{{title}}</h2>
+            <div class='inline-course'>
+              <span style="font-size:.30rem">{{collectionCount}}人收藏</span>
+            </div>
             <div class='text-intro'>
               <div v-html='introduction'></div>
             </div>
@@ -94,6 +97,7 @@ export default {
       selected: '1',
       title: '',
       introduction: '',
+      collectionCount:0,
       popupVisible: false,
       popupVisibleConsult: false,
       proid: null,
@@ -124,6 +128,7 @@ export default {
         _this.introduction = data.introduction || ''
         _this.isCollect = data.is_collectioned || ''
         _this.teachersList = data.teachers || []
+        _this.collectionCount = data.collectionCount || 0
 
         if (_this.isCollect == '1') {
           _this.isCollectTtl = '取消收藏'
@@ -175,12 +180,14 @@ export default {
       }
       this.popupVisibleConsult = true
     },
-    gohome() {
-        let _this = this
-        _this.$router.push({
-          name: 'home'
-        })
-        return false
+        back() {
+
+        if (window.history.length <= 1) {
+                this.$router.push({path:'/'})
+                return false
+            } else {
+                this.$router.go(-1)
+            }
     },
     hhh (item) {
       item.show = !item.show

@@ -254,6 +254,11 @@ export default {
                     path: '/course/hindex',
                     query:{data:comproid}
                 })
+              }else if (comprotype=="XSSP") {
+                _this.$router.push({
+                    path: '/course/videoView',
+                    query:{data:comproid}
+                })
               }
             }else{
               _this.$router.push({
@@ -284,6 +289,11 @@ export default {
               }else if (comprotype=="KYZD") {
                 _this.$router.push({
                     path: '/course/hindex',
+                    query:{data:comproid}
+                })
+              }else if (comprotype=="XSSP") {
+                _this.$router.push({
+                    path: '/course/videoView',
                     query:{data:comproid}
                 })
               }

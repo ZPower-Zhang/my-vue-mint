@@ -1,7 +1,7 @@
 <template>
 
 <div style='position:relative;'>
-  <mt-button @click="gohome" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
+  <mt-button @click="back" style="position: absolute;background: none; border:none; -webkit-box-shadow:none;box-shadow:none;" >
   <img :src='Imgback' height="20" width="20" slot="icon" >
 </mt-button>
   <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
@@ -57,6 +57,7 @@
           </mt-tab-container-item>
           <mt-tab-container-item id='2'>
             <div v-html='plan'></div>
+          <div style="height: 100px"></div>
           </mt-tab-container-item>
           <!--           <mt-tab-container-item id='3'>
             <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/>
@@ -308,12 +309,14 @@ export default {
       }
       this.popupVisibleConsult = true
     },
-    gohome() {
-        let _this = this
-        _this.$router.push({
-          name: 'home'
-        })
-        return false
+    back() {
+
+        if (window.history.length <= 1) {
+                this.$router.push({path:'/'})
+                return false
+            } else {
+                this.$router.go(-1)
+            }
     },
     hhh (item) {
       item.show = !item.show

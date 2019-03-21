@@ -18,6 +18,7 @@ const getShare = (params) => service.get('getShare', { params }) // 分享
 const getXXPXList = (params) => service.get('getXXPXlist', { params }) // 线下培训
 const getYNZXList = (params) => service.get('getYNZXlist', { params }) // 业内资讯
 const getKYZDList = (params) => service.get('getKYZDlist', { params }) // 科研指导
+const getXSSPList = (params) => service.get('getXSSPlist', { params }) // 线上视频
 
 export {
   getSendSMS,
@@ -37,5 +38,6 @@ export {
   getShare,
   getXXPXList,
   getYNZXList,
-  getKYZDList
+  getKYZDList,
+  getXSSPList,
 }

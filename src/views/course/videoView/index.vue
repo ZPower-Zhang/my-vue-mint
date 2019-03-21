@@ -25,7 +25,7 @@
           <mt-tab-item id='1'>课程介绍</mt-tab-item>
           <mt-tab-item id='2'>课程目录</mt-tab-item>
           <!-- <mt-tab-item id='3'>评论列表</mt-tab-item> -->
-          <mt-tab-item id='4' v-if="seen">课后交流</mt-tab-item>
+          <!-- <mt-tab-item id='4' v-if="seen">课后交流</mt-tab-item> -->
         </mt-navbar>
 
         <!-- tab-container -->
@@ -66,17 +66,31 @@
           <div style="height: 50px"></div>
           </mt-tab-container-item>
           <mt-tab-container-item id='2'>
-            <div v-html='plan'></div>
+
+            <div v-for='n in videoList' :key='n'>
+                <div v-if="isBuyed != '1' & n.is_free=='1'" @click="play(n.videoUrl)">
+                  <mt-cell :title='n.body' :label='n.duration'>
+                    <span>试看</span>
+                  </mt-cell>
+                </div>
+                <div v-if="isBuyed != '1' & n.is_free=='0'" @click="doPayNow()">
+                  <mt-cell :title='n.body' :label='n.duration'>
+                    <span>购买</span>
+                  </mt-cell>
+                </div>
+                <div v-if="isBuyed == '1'" @click="play(n.videoUrl)">
+                  <mt-cell :title='n.body' :label='n.duration'>
+                    <span>播放</span>
+                  </mt-cell>
+                </div>
+            </div>
+
           </mt-tab-container-item>
           <!--           <mt-tab-container-item id='3'>
             <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/>
           </mt-tab-container-item> -->
           <mt-tab-container-item id='4'>
-            <!-- <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/> -->
-            <div style='margin:0 auto; width:250px; height:400px;'>
-              <img :src='classImgURL' alt srcset>
-              <h3>长按识别二维码，加入本培训课后交流微信群</h3>
-            </div>
+
           </mt-tab-container-item>
         </mt-tab-container>
       </div>
@@ -140,6 +154,7 @@ export default {
   name: 'video',
   data() {
     return {
+      videoList:[],
       teachersList:[],
       Imgback:backImg,
       imgVideo: '',
@@ -152,12 +167,11 @@ export default {
       total_fee: '',
       Orig_fee: '',
       number: 0,
+      isBuyed:"0",
       seen: true,
       buyCount: 0,
       collectionCount: 0,
       introduction: '',
-      plan: '',
-      classImgURL: '',
       popupVisible: false,
       popupVisibleConsult: false,
       proid: null,
@@ -170,7 +184,7 @@ export default {
       consutContent: '',
       playerOptions : {
         playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
-        autoplay: false, //如果true,浏览器准备好时开始回放。
+        autoplay: true, //如果true,浏览器准备好时开始回放。
         muted: false, // 默认情况下将会消除任何音频。
         loop: false, // 导致视频一结束就重新开始。
         preload: 'auto', // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
@@ -178,10 +192,10 @@ export default {
         aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
         fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
         sources: [{
-          type: "",
-          src: "https://1252348479.vod2.myqcloud.com/92e0c654vodtransgzp1252348479/7f7d469f7447398156688396048/v.f30.mp4?t=5c937465&us=g6Iu56wHSI&sign=5fe862ac937031938b8b5c4aaa5b5c1d" //url地址
+          type: "video/mp4",
+          src: "http://train.ksmedtech.com/static/videos/gaisu.mp4" //url地址
         }],
-        poster: "http://train.ksmedtech.com/static/uploadFile/rwsypxt.png", //你的封面地址
+        poster: "", //你的封面地址
         // width: document.documentElement.clientWidth,
         notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
         controlBar: {
@@ -198,8 +212,8 @@ export default {
     videoPlayer
   },
   created() {
-    // this.proid = this.$route.query.data
-    // this.getinfo(this.proid)
+    this.proid = this.$route.query.data
+    this.getinfo(this.proid)
   },
   methods: {
     async getinfo(id) {
@@ -210,19 +224,19 @@ export default {
       if (ret && ret.flag) {
         let data = ret.data || {}
         _this.imgVideo = data.bImgURL || ''
+        _this.playerOptions.poster = data.bImgURL || ''
         _this.title = data.body || ''
         _this.total_fee = data.total_fee || ''
         _this.Orig_fee = data.Orig_fee || ''
-        _this.number = data.number || ''
         _this.buyCount = data.buyCount || 0
         _this.collectionCount = data.collectionCount || 0
         _this.introduction = data.introduction || ''
-        _this.plan = data.plan || ''
-        _this.classImgURL = data.classImgURL || ''
         _this.isBuyed = data.is_buyed || ''
         _this.isCollect = data.is_collectioned || ''
         _this.on_sale = data.on_sale || ''
         _this.teachersList = data.teachers || []
+        _this.videoList = data.videos||[]
+        _this.playerOptions.sources[0].src = data.videos[0].videoUrl||""
         if (_this.isBuyed == '1') {
           _this.applyTitle = '已经购买'
           _this.seen = true
@@ -238,8 +252,16 @@ export default {
         wxconfig.wxShowMenu(window.location.href,_this.title,"全科与公卫协同创新培训平台",_this.imgVideo)
       }
     },
-
-    doPayNow() {
+      play(url) {
+        this.playerOptions.sources[0].src = url
+        // this.$refs.videoPlayer.player.src(url)
+        this.$refs.videoPlayer.player.play()
+        // this.$resf.videoPlayer.play()
+        // this.videoPlayer.player.play()
+        // alert(this.$refs.videoPlayer.player)
+        // alert(url)
+      }
+    ,doPayNow() {
 
       let _this = this
       if (_this.isBuyed == '1') {
@@ -250,7 +272,7 @@ export default {
         // console.log(_this.proid)
         _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid,comprotype:"XXPX"}
+          params: {comproid: _this.proid,comprotype:"XSSP"}
         })
         return false
       }

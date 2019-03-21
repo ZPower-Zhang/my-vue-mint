@@ -1,12 +1,17 @@
 <template>
   <div style="position:relative;">
     <mt-header :title="showTitle" style="background-color:#ffffff;color: black">
-      <router-link to="/" slot="left" v-show="showBLink">
+      <!-- <router-link to="/" slot="left" v-show="showBLink"> -->
         <!-- <mt-button icon="back"></mt-button> -->
-          <mt-button style="left: -10px;top:0px">
-          <img :src='Imgback' height="40px" width="200px" slot="icon">
+          <mt-button v-if="showLOGO" style=""  v-show="showBLink" slot="left">
+          <img  :src='Imgback1' height="40px" width="200px" slot="icon" style="">
         </mt-button>
-      </router-link>
+
+        <mt-button v-if="!showLOGO" style="" @click="back" v-show="showBLink" slot="left">
+          <img  :src='Imgback2' height="20px" width="20px" slot="icon">
+        </mt-button>
+
+      <!-- </router-link> -->
       <mt-button slot="right" @click="toggle" v-show="showUser">
         <img :src="imgUser" alt srcset style="width: 20px">
       </mt-button>
@@ -33,18 +38,20 @@
 </template>
 <script>
 import userImg from "@/assets/img/user1.png";
-import backImg from '@/assets/img/logo3.png'
+import backImg from '@/assets/img/返回.png'
+import logoImg from '@/assets/img/logo3.png'
 
 export default {
   name: "header-top",
   data () {
     return {
-      Imgback:backImg,
+      Imgback1:logoImg,
+      Imgback2:backImg,
       imgUser: userImg,
       showBLink: true,
       showTitle: '',
-      showDrop: false
-    };
+      showDrop: false,
+    }
   },
   props: {
     showBack: {
@@ -58,6 +65,10 @@ export default {
     showU: {
       type: Boolean,
       default: true
+    },
+    showLOGO:{
+      type:Boolean,
+      default:false
     }
   },
   components: {},
@@ -67,6 +78,16 @@ export default {
     this.showTitle = this.showTtl || ''
   },
   methods: {
+
+    back() {
+
+        if (window.history.length <= 1) {
+                this.$router.push({path:'/'})
+                return false
+            } else {
+                this.$router.go(-1)
+            }
+    },
     toggle() {
       let curUid = this.getCookie('uid'), _this = this;
       if (!curUid) {

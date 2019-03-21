@@ -21,6 +21,24 @@
       </router-link>
 
 
+      <router-link v-if="item.proType=='XSSP'" :to="'/course/videoView?data='+item.proid" class="panel-content">
+        <div class="panel-hd">
+          <img v-bind:src="item.sImgURL" alt srcset>
+          </div>
+          <div class="panel-bd">
+            <h3>{{item.body}}</h3>
+            <p class="u-p">{{item.speaker}} 主讲</p>
+            <p class="u-price">
+              <span class='u-unit'>￥{{item.total_fee/100}}</span>
+              <span style='text-decoration:line-through;color: black'>{{item.on_sale == '1' ? '¥'+item.Orig_fee/100 : ''}}</span>
+              <span
+                class="u-count"
+              >{{item.buyCount||0}}人购买</span>
+            </p>
+          </div>
+      </router-link>
+
+
       <router-link v-if="item.proType=='YNZX'" :to="'/course/contents?data='+item.proid" class='panel-content'>
           <div class='panel-hd'>
             <img v-bind:src='item.sImgURL' alt srcset>
@@ -44,7 +62,8 @@ import HeaderTop from '@/components/HeaderTop'
 import {
   getHome,
   getXXPXList,
-  getYNZXList
+  getYNZXList,
+  getXSSPList
 } from '@/api/lession'
 export default {
   name: 'lists',
@@ -58,7 +77,8 @@ export default {
           this.showTtl="业内资讯"
           this.ynzx();
     }else if (this.proType=="XSSP"){
-          this.showTtl="线上视频"
+          this.showTtl="课程视频"
+          this.xssp()
     }
   },
   data() {
@@ -84,6 +104,11 @@ export default {
       }
     },    async ynzx() {
       let ret = await getYNZXList({})
+      if (ret && ret.flag) {
+        this.lists = ret.data.lists
+      }
+    },async xssp() {
+      let ret = await getXSSPList({})
       if (ret && ret.flag) {
         this.lists = ret.data.lists
       }

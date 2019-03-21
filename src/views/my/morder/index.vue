@@ -36,15 +36,7 @@ import {
 export default {
   name: 'morder',  
   created(){
-    let _this = this
-    if (window.document.cookie.indexOf('uid=') < 0) {
-        // alert('请先注册')
-        // console.log(_this.proid)
-        _this.$router.push({
-          name: 'up',
-        })
-        return false
-      }
+
   }
   ,
   data() {
@@ -59,7 +51,17 @@ export default {
     HeaderTop
   },
   mounted() {
-    this.getList()
+    //     let _this = this
+    // if (window.document.cookie.indexOf('uid=') < 0) {
+    //     // alert('请先注册')
+    //     // console.log(_this.proid)
+    //     _this.$router.push({
+    //       name: 'up',
+    //     })
+    //     return false
+    //   }
+          this.getList()
+
   },
   methods: {
     goToStudy() {
