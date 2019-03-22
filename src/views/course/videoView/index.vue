@@ -67,19 +67,19 @@
           </mt-tab-container-item>
           <mt-tab-container-item id='2'>
 
-            <div v-for='n in videoList' :key='n'>
-                <div v-if="isBuyed != '1' & n.is_free=='1'" @click="play(n.videoUrl)">
-                  <mt-cell :title='n.body' :label='n.duration'>
+            <div v-for='(item,index) in videoList' :key='index'>
+                <div v-if="isBuyed != '1' & item.is_free=='1'" @click="play(item.videoUrl)">
+                  <mt-cell :title='item.body' :label='item.duration'>
                     <span>试看</span>
                   </mt-cell>
                 </div>
-                <div v-if="isBuyed != '1' & n.is_free=='0'" @click="doPayNow()">
-                  <mt-cell :title='n.body' :label='n.duration'>
+                <div v-if="isBuyed != '1' & item.is_free=='0'" @click="doPayNow()">
+                  <mt-cell :title='item.body' :label='item.duration'>
                     <span>购买</span>
                   </mt-cell>
                 </div>
-                <div v-if="isBuyed == '1'" @click="play(n.videoUrl)">
-                  <mt-cell :title='n.body' :label='n.duration'>
+                <div v-if="isBuyed == '1'" @click="play(item.videoUrl)">
+                  <mt-cell :title='item.body' :label='item.duration'>
                     <span>播放</span>
                   </mt-cell>
                 </div>
@@ -254,8 +254,8 @@ export default {
     },
       play(url) {
         this.playerOptions.sources[0].src = url
-        // this.$refs.videoPlayer.player.src(url)
-        this.$refs.videoPlayer.player.play()
+        // this.$refs.videoPlayer.player.play()
+        this.$refs.videoPlayer.player.src(url)
         // this.$resf.videoPlayer.play()
         // this.videoPlayer.player.play()
         // alert(this.$refs.videoPlayer.player)

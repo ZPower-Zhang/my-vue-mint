@@ -43,15 +43,7 @@ import {
 export default {
   name: 'study',
   created(){
-    // let _this = this
-    // if (window.document.cookie.indexOf('uid=') < 0) {
-    //     // alert('请先注册')
-    //     // console.log(_this.proid)
-    //     _this.$router.push({
-    //       name: 'up',
-    //     })
-    //     return false
-    //   }
+
   }
   ,data() {
     return {
@@ -65,7 +57,17 @@ export default {
     HeaderTop
   },
   mounted() {
-    this.getList()
+    if(window.document.cookie.indexOf('openid')!=-1) {
+        if (window.document.cookie.indexOf('uid=') < 0) {
+              alert('请先注册')
+              _this.$router.push({
+                name: 'up',
+              })
+              return false
+        }else{
+              this.getList()
+        }
+    }
   },
   methods: {
     async getList() {

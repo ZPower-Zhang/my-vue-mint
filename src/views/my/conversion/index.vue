@@ -16,15 +16,7 @@ import { MessageBox } from 'mint-ui';
 export default {
   name: 'conversion',
     created(){
-    // let _this = this
-    // if (window.document.cookie.indexOf('uid=') < 0) {
-    //     // alert('请先注册')
-    //     // console.log(_this.proid)
-    //     _this.$router.push({
-    //       name: 'up',
-    //     })
-    //     return false
-    //   }
+
   }
   ,
   data () {
@@ -38,7 +30,17 @@ export default {
   components: {
     HeaderTop
   },
-  mounted () {},
+  mounted () {
+    if(window.document.cookie.indexOf('openid')!=-1) {
+        if (window.document.cookie.indexOf('uid=') < 0) {
+              alert('请先注册')
+              _this.$router.push({
+                name: 'up',
+              })
+              return false
+        }
+    }
+  },
   methods: {
     // 兑换
     async doConversion() {
@@ -55,15 +57,24 @@ export default {
 
       if (ret && ret.flag) {
         // alert(ret.msg)
-        MessageBox('提示', ret.msg);
+          if (ret.ret=="1001") {
+          let _this = this
+          if (window.document.cookie.indexOf('uid=') < 0) {
+              alert('请先注册')
+              // console.log(_this.proid)
+              _this.$router.push({
+                name: 'up',
+              })
+              return false
+            }
+        }
+          MessageBox('提示', ret.msg);
         if (ret.ret == '200') {
+          MessageBox('提示', ret.msg);
           _this.$router.push({
             name: 'home'
           })
         }
-      } else {
-        // alert(ret.msg)
-        MessageBox('提示', ret.msg);
       }
     }
   }
