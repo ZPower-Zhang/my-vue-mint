@@ -15,9 +15,9 @@
         <input type="text" placeholder="*邮箱" v-model="email">
       </div>
 
-      <!-- <div class="m-ipt">
-        <input type="text" placeholder="所在省份" v-model="province">
-      </div> -->
+      <div class="m-ipt">
+        <input type="text" placeholder="*身份证号码" v-model="idnumber">
+      </div>
 
       <div class="page-content">
       <mt-cell title="*省市区:" :value="areaString" is-link @click.native="handlerArea"></mt-cell>
@@ -27,7 +27,7 @@
     </div>
 
       <div class="m-ipt">
-        <input type="text" placeholder="*所在医疗机构" v-model="company">
+        <input type="text" placeholder="所在医疗机构" v-model="company">
       </div>
 
       <div class="m-ipt">
@@ -81,6 +81,7 @@ export default {
       email: '',
       province: '',
       company: '',
+      idnumber:'',
       code: null,
       showErr: false,
       errMsg: '',
@@ -164,14 +165,20 @@ export default {
       } else {
         _this.toggleError(false)
       }
-
+      if (_this.idnumber.length < 15 || _this.idnumber.length > 18) {
+        _this.toggleError(true, '身份证号码无效')
+        return false
+      } else {
+        _this.toggleError(false)
+      }
       let obj = {
         phone: _this.phoneNum,
         userName: _this.userName,
         email: _this.email,
         province: _this.areaString,
         company: _this.company,
-        code: _this.code
+        code: _this.code,
+        idnumber : _this.idnumber
       }
 
       return obj
@@ -207,13 +214,18 @@ export default {
         _this.toggleError(false)
       }
 
-      if (_this.company.length < 2) {
-        _this.toggleError(true, '公司名称无效')
+      // if (_this.company.length < 2) {
+      //   _this.toggleError(true, '公司名称无效')
+      //   return false
+      // } else {
+      //   _this.toggleError(false)
+      // }
+      if (_this.idnumber.length < 15 || _this.idnumber.length > 18) {
+        _this.toggleError(true, '身份证号码无效')
         return false
       } else {
         _this.toggleError(false)
       }
-
       // if (_this.code.length < 6) {
       //   _this.toggleError(true, '证书编码无效')
       //   return false
@@ -227,7 +239,8 @@ export default {
         email: _this.email,
         province: _this.areaString,
         company: _this.company,
-        code: _this.code
+        code: _this.code,
+        idnumber : _this.idnumber
       }
 
       let ret = await getRegis(params)

@@ -17,7 +17,7 @@
               <!-- <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span> -->
               <span style="font-size:.20rem; color:gray;margin:auto;text-align: right;">{{updateTime}}</span>
             </div>
-            <div class='text-intro'>
+            <div class='text-intro' style="margin-top: 20px">
               <div v-html='introduction'></div>
             </div>
 <!--     <div class='m-ft2'>

@@ -23,8 +23,9 @@
           <mt-tab-container-item id='1'>
             <h2>{{title}}</h2>
             <div class='inline-course'>
-              <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span>
-              <!-- <span style='text-decoration:line-through;' v-if='seen'>¥{{Orig_fee/100}}</span> -->
+              <!-- <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span> -->
+              <span style="color: #f68f40;font-size: .40rem;">¥暂定</span>
+              
               <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
               <span style="font-size:.30rem">{{buyCount}}人购买</span>
               <span style="font-size:.30rem">剩余{{number-buyCount}}个名额</span>
@@ -202,7 +203,8 @@ export default {
     },
 
     doPayNow() {
-
+      MessageBox('提示', '还未开始报名');
+      return false
       let _this = this
       if (_this.isBuyed == '1') {
         return false

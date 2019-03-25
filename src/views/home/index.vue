@@ -41,8 +41,9 @@
             <h3>{{item2.body}}</h3>
             <p class='u-p'>{{item2.speaker}} 主持</p>
             <p class='u-price'>
-              <span class='u-unit'>￥{{item2.total_fee/100}}</span>
-              <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span>
+              <!-- <span class='u-unit'>￥{{item2.total_fee/100}}</span> -->
+              <span class='u-unit'>￥暂定</span>
+              <!-- <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span> -->
               <span class='u-count'>剩余{{item2.number-item2.buyCount}}个名额</span>
             </p>
           </div>
