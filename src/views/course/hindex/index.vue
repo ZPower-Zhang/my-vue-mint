@@ -14,7 +14,7 @@
         <mt-navbar v-model='selected'>
           <mt-tab-item id='1'>指导介绍</mt-tab-item>
           <mt-tab-item id='2'>专家介绍</mt-tab-item>
-          <!-- <mt-tab-item id='3'>评论列表</mt-tab-item> -->
+          <mt-tab-item id='3'>评论列表</mt-tab-item>
         </mt-navbar>
 
         <!-- tab-container -->
@@ -52,14 +52,31 @@
             </section>
             <div style="height: 50px"></div>
             </mt-tab-container-item>
-          <!--           <mt-tab-container-item id='3'>
-            <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/>
-          </mt-tab-container-item> -->
+            <mt-tab-container-item id='3'>
+            <div v-for='(item,index) in commentList' :key='index'>
+                <div  @click="doReply(item)">
+                  <mt-cell :title="item.from_name+' :'+item.content">
+                    <!-- <span>回复</span> -->
+                  </mt-cell>
+                </div>
+              <div v-for='(item2,index2) in item.replyList' :key='index2'>
+                <div  @click="doReply(item2)">
+                  <mt-cell  :label="item2.from_name+' 回复@'+item2.to_name+' :'+item2.content">
+                    <!-- <span>回复</span> -->
+                  </mt-cell>
+                </div>
+              </div>
+            </div>
+          <div style="height: 50px"></div>
+
+
+          </mt-tab-container-item>
 
         </mt-tab-container>
       </div>
     </div>
     <div class='m-ft3'>
+      <div class='ft-consult2' @click="doComment">评论</div>
       <div class='ft-three' @click="doGetCollect">{{isCollectTtl}}</div>
       <div class='ft-consult' @click="doConsult">咨询</div>
     </div>
@@ -71,7 +88,19 @@
         <mt-button class="btn-pay" size="normal">提交</mt-button>
       </div>
     </mt-popup>
+    <mt-popup v-model="popupVisibleConsult2" popup-transition="popup-fade" position="bottom" class="p-popup-pay">
+      <mt-field label="评论:" placeholder="请输入评论内容" type="textarea" rows="4" v-model="consutContent2"></mt-field>
+      <div class="sigle-btn-pay" @click="toToComment">
+        <mt-button class="btn-pay" size="normal">提交</mt-button>
+      </div>
+    </mt-popup>
 
+    <mt-popup v-model="popupVisibleConsult3" popup-transition="popup-fade" position="bottom" class="p-popup-pay">
+      <mt-field :label="'@'+replyDic.from_name+':'" placeholder="请输入回复内容" type="textarea" rows="4" v-model="consutContent3"></mt-field>
+      <div class="sigle-btn-pay" @click="toToReplay">
+        <mt-button class="btn-pay" size="normal">提交</mt-button>
+      </div>
+    </mt-popup>
   </div>
 </template>
 
@@ -83,7 +112,10 @@ import {
   getCollection,
   getConsult,
   getProinfo,
-  getShare
+  getShare,
+  getCommentList,
+  getComment,
+  getReplay
 } from '@/api/lession'
 import wxconfig from '@/api/share'
 import { MessageBox } from 'mint-ui';
@@ -104,7 +136,13 @@ export default {
       isCollect: '',
       isCollectTtl: '收藏',
       phoneEmail: '',
-      consutContent: ''
+      consutContent: '',
+      popupVisibleConsult2:false,
+      popupVisibleConsult3:false,
+      consutContent2: '',
+      consutContent3: '',
+      commentList:[],
+      replyDic:{"from_name":"","from_uid":"","commont_id":""},
     }
   },
   components: {
@@ -113,6 +151,7 @@ export default {
   created() {
     this.proid = this.$route.query.data
     this.getinfo(this.proid)
+    this.getComlist(this.proid)
   },
   methods: {
     async getinfo(id) {
@@ -191,8 +230,82 @@ export default {
     },
     hhh (item) {
       item.show = !item.show
-    }
+    },async getComlist(id) {
+      let _this = this
+      let ret = await getCommentList({
+        proid: id
+      })
+      if (ret && ret.flag) {
+        let data = ret.data || {}
+        _this.commentList = data.lists || []
+        console.log(ret)
+      }
+    },
 
+    doComment(){
+        let _this = this
+      if (window.document.cookie.indexOf('uid=') < 0) {
+        _this.$router.push({
+          name: 'up',
+          params: {comproid: _this.proid,comprotype:"XXPX"}
+        })
+        return false
+      }
+      this.popupVisibleConsult2 = true
+    },
+    doReply(item){
+              let _this = this
+      if (window.document.cookie.indexOf('uid=') < 0) {
+        _this.$router.push({
+          name: 'up',
+          params: {comproid: _this.proid,comprotype:"XXPX"}
+        })
+        return false
+      }
+      this.popupVisibleConsult3 = true
+      this.replyDic.from_name=item.from_name
+      this.replyDic.from_uid=item.from_uid
+      this.replyDic.comment_id=item.comment_id
+    }
+    ,
+    async toToComment(){
+      let _this = this
+      let ret = await getComment({
+        proid: _this.proid,
+        content: _this.consutContent2
+      })
+      if (ret && ret.flag) {
+        if(ret.ret=="200"){
+        _this.consutContent2 = ''
+        _this.popupVisibleConsult2 = false
+        document.body.scrollTop = 0
+        MessageBox('提示', ret.msg);
+        this.getComlist(this.proid)
+      }else{
+        MessageBox('提示', '评论失败');
+        }
+      }
+    }
+    ,
+    async toToReplay(){
+      let _this = this
+      let ret = await getReplay({
+        comment_id: _this.replyDic.comment_id,
+        to_uid: _this.replyDic.from_uid,
+        content: _this.consutContent3
+      })
+      if (ret && ret.flag) {
+        if(ret.ret=="200"){
+        _this.consutContent3 = ''
+        _this.popupVisibleConsult3 = false
+        document.body.scrollTop = 0
+        MessageBox('提示', ret.msg);
+        this.getComlist(this.proid)
+      }else{
+        MessageBox('提示', '回复失败');
+        }
+      }
+    }
     ,
 
     async toToConsult() {

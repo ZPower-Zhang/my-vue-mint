@@ -482,7 +482,7 @@ code {
 
   >div {
     display: block;
-    flex-basis: 3rem;
+    flex-basis: 2rem;
     text-align: center;
     line-height: 45px;
     color: #fff;
@@ -498,7 +498,10 @@ code {
     flex-shrink: 14;
     background-color: #ff9800;
   }
-
+ .ft-consult2 {
+    flex-shrink: 14;
+    background-color: gray;
+  }
   .ft-apply {
     flex-shrink: 6;
     background-color: #28b8a1;
@@ -533,6 +536,10 @@ code {
   .ft-consult {
     flex-shrink: 5;
     background-color: #ff9800;
+  }
+    .ft-consult2 {
+    flex-shrink: 5;
+    background-color: gray;
   }
 }
 .m-pay {

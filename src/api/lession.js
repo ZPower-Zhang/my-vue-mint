@@ -19,6 +19,9 @@ const getXXPXList = (params) => service.get('getXXPXlist', { params }) // 线下
 const getYNZXList = (params) => service.get('getYNZXlist', { params }) // 业内资讯
 const getKYZDList = (params) => service.get('getKYZDlist', { params }) // 科研指导
 const getXSSPList = (params) => service.get('getXSSPlist', { params }) // 线上视频
+const getCommentList = (params) => service.get('getComment', { params }) // 获取评论
+const getComment = (params) => service.get('comment', { params }) // 评论
+const getReplay = (params) => service.get('reply', { params }) // 回复
 
 export {
   getSendSMS,
@@ -40,4 +43,7 @@ export {
   getYNZXList,
   getKYZDList,
   getXSSPList,
+  getCommentList,
+  getComment,
+  getReplay
 }
