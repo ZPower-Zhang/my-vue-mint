@@ -97,13 +97,13 @@
             <div v-for='(item,index) in commentList' :key='index'>
                 <div  @click="doReply(item)">
                   <mt-cell :title="item.from_name+' :'+item.content">
-                    <span style="font-size: 2px">{{item.createTime|momentTime}}</span>
+                    <span style="font-size: 10px">{{item.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               <div v-for='(item2,index2) in item.replyList' :key='index2'>
                 <div  @click="doReply(item2)">
                   <mt-cell  :label="item2.from_name+' 回复@'+item2.to_name+' :'+item2.content">
-                    <span style="font-size: 2px">{{item2.createTime|momentTime}}</span>
+                    <span style="font-size: 10px">{{item2.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               </div>
@@ -181,7 +181,7 @@ import {
   getReplay
 } from '@/api/lession'
 import wxconfig from '@/api/share'
-import { MessageBox } from 'mint-ui';
+import { MessageBox,Toast } from 'mint-ui';
 
 import 'video.js/dist/video-js.css'
 import  'vue-video-player/src/custom-theme.css'
@@ -351,10 +351,12 @@ export default {
         _this.consutContent2 = ''
         _this.popupVisibleConsult2 = false
         document.body.scrollTop = 0
-        MessageBox('提示', ret.msg);
+        // MessageBox('提示', ret.msg);
+        Toast(ret.msg);
         this.getComlist(this.proid)
       }else{
-        MessageBox('提示', '评论失败');
+        // MessageBox('提示', '评论失败');
+        Toast('评论失败');
         }
       }
     }
@@ -371,10 +373,12 @@ export default {
         _this.consutContent3 = ''
         _this.popupVisibleConsult3 = false
         document.body.scrollTop = 0
-        MessageBox('提示', ret.msg);
+        // MessageBox('提示', ret.msg);
+        Toast(ret.msg);
         this.getComlist(this.proid)
       }else{
-        MessageBox('提示', '回复失败');
+        // MessageBox('提示', '回复失败');
+        Toast('回复失败');
         }
       }
     }
@@ -473,13 +477,16 @@ export default {
           _this.isCollect = data.is_collectioned || ''
           if (_this.isCollect == '1') {
             _this.isCollectTtl = '取消收藏'
-            MessageBox('提示', '收藏成功');
+            // MessageBox('提示', '收藏成功');
+            Toast('收藏成功');
           } else {
             _this.isCollectTtl = '收藏'
-            MessageBox('提示', '取消收藏成功');
+            // MessageBox('提示', '取消收藏成功');
+            Toast('取消收藏成功');
           }
         }else{
-          MessageBox('提示', '收藏失败')
+          // MessageBox('提示', '收藏失败')
+          Toast('收藏失败');
         }
       }
     },
@@ -520,9 +527,11 @@ export default {
         _this.phoneEmail = ''
         _this.consutContent = ''
         _this.popupVisibleConsult = false
-        MessageBox('提示', '咨询已提交')
+          // MessageBox('提示', '咨询已提交')
+          Toast('咨询已提交');
         }else{
-        MessageBox('提示', '咨询失败')
+          MessageBox('提示', '咨询失败')
+          Toast('咨询失败');
         }
       }
     },

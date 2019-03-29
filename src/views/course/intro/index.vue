@@ -72,13 +72,13 @@
             <div v-for='(item,index) in commentList' :key='index'>
                 <div  @click="doReply(item)">
                   <mt-cell :title="item.from_name+' :'+item.content">
-                    <span style="font-size: 2px">{{item.createTime|momentTime}}</span>
+                    <span style="font-size: 10px">{{item.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               <div v-for='(item2,index2) in item.replyList' :key='index2'>
                 <div  @click="doReply(item2)">
                   <mt-cell  :label="item2.from_name+' 回复@'+item2.to_name+' :'+item2.content">
-                    <span style="font-size: 2px">{{item2.createTime|momentTime}}</span>
+                    <span style="font-size: 10px">{{item2.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               </div>
@@ -163,7 +163,7 @@ import {
   getReplay
 } from '@/api/lession'
 import wxconfig from '@/api/share'
-import { MessageBox } from 'mint-ui';
+import { Toast,MessageBox } from 'mint-ui';
 import moment from "moment";
 export default {
   name: 'intro',
@@ -272,7 +272,8 @@ export default {
     },
 
     doPayNow() {
-      MessageBox('提示', '还未开始报名');
+      // MessageBox('提示', '还未开始报名');
+      Toast('还未开始报名');
       return false
       let _this = this
       if (_this.isBuyed == '1') {
@@ -318,7 +319,8 @@ export default {
           } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 
           } else if (res.err_msg == "get_brand_wcpay_request:fail") {
-            alert("支付失败!");
+            // alert("支付失败!");
+            Toast('支付失败');
           }
         }
       );
@@ -357,13 +359,16 @@ export default {
               _this.isCollect = data.is_collectioned || ''
               if (_this.isCollect == '1') {
                 _this.isCollectTtl = '取消收藏'
-                MessageBox('提示', '收藏成功');
+                // MessageBox('提示', '收藏成功');
+                Toast('收藏成功');
               } else {
                 _this.isCollectTtl = '收藏'
-                MessageBox('提示', '取消收藏成功');
+                // MessageBox('提示', '取消收藏成功');
+                Toast('取消收藏成功');
               }
             }else {
-                MessageBox('提示', '收藏失败');
+                // MessageBox('提示', '收藏失败');
+                Toast('收藏失败');
             }
 
       }
@@ -429,10 +434,12 @@ export default {
         _this.consutContent2 = ''
         _this.popupVisibleConsult2 = false
         document.body.scrollTop = 0
-        MessageBox('提示', ret.msg);
+        // MessageBox('提示', ret.msg);
+        Toast(ret.msg);
         this.getComlist(this.proid)
       }else{
-        MessageBox('提示', '评论失败');
+        // MessageBox('提示', '评论失败');
+        Toast('评论失败');
         }
       }
     }
@@ -449,10 +456,12 @@ export default {
         _this.consutContent3 = ''
         _this.popupVisibleConsult3 = false
         document.body.scrollTop = 0
-        MessageBox('提示', ret.msg);
+        // MessageBox('提示', ret.msg);
+        Toast(ret.msg);
         this.getComlist(this.proid)
       }else{
-        MessageBox('提示', '回复失败');
+        // MessageBox('提示', '回复失败');
+        Toast('回复失败');
         }
       }
     }
@@ -471,10 +480,11 @@ export default {
         _this.consutContent = ''
         _this.popupVisibleConsult = false
         document.body.scrollTop = 0
-        MessageBox('提示', '咨询已提交');
+        // MessageBox('提示', '咨询已提交');
+        Toast('咨询已提交');
       }else{
-        MessageBox('提示', '咨询失败');
-
+        // MessageBox('提示', '咨询失败');
+        Toast('咨询失败');
         }
       }
     }
