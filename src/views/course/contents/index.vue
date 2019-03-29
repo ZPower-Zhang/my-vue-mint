@@ -15,7 +15,7 @@
               <span style="color: #576b95;
     text-decoration: none;">{{comefrom}}</span>
               <!-- <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span> -->
-              <span style="font-size:.20rem; color:gray;margin:auto;text-align: right;">{{updateTime}}</span>
+              <span style="font-size:.20rem; color:gray;margin:auto;text-align: right;">{{updateTime|momentTime}}</span>
             </div>
             <div class='text-intro' style="margin-top: 20px">
               <div v-html='introduction'></div>
@@ -38,6 +38,7 @@ import {
 } from '@/api/lession'
 import wxconfig from '@/api/share'
 import { MessageBox } from 'mint-ui';
+import moment from "moment";
 export default {
   name: 'contents',
   data() {
@@ -54,13 +55,19 @@ export default {
       introduction:"",
       imgVideo:"",
     }
-  },
+  },filters:{
+      momentTime: function (value) {
+        return moment.utc(value).fromNow()
+    }
+  }
+  ,
   components: {
     HeaderTop
   },
   created() {
     this.proid = this.$route.query.data
     this.getinfo(this.proid)
+    moment.locale("zh-cn")
   },
   methods: {
     async getinfo(id) {

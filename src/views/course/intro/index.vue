@@ -62,17 +62,23 @@
           </mt-tab-container-item>
           <mt-tab-container-item id='3'>
             <!-- <mt-cell v-for='n in 6' :key='n' :title=''content ' + n'/> -->
-
+            <div v-if="commentLen==0">
+                <div  @click="doComment()">
+                  <mt-cell title="暂无评论，快来添加吧！">
+                    <span>评论</span>
+                  </mt-cell>
+                </div>
+            </div>
             <div v-for='(item,index) in commentList' :key='index'>
                 <div  @click="doReply(item)">
                   <mt-cell :title="item.from_name+' :'+item.content">
-                    <!-- <span>回复</span> -->
+                    <span style="font-size: 2px">{{item.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               <div v-for='(item2,index2) in item.replyList' :key='index2'>
                 <div  @click="doReply(item2)">
                   <mt-cell  :label="item2.from_name+' 回复@'+item2.to_name+' :'+item2.content">
-                    <!-- <span>回复</span> -->
+                    <span style="font-size: 2px">{{item2.createTime|momentTime}}</span>
                   </mt-cell>
                 </div>
               </div>
@@ -158,6 +164,7 @@ import {
 } from '@/api/lession'
 import wxconfig from '@/api/share'
 import { MessageBox } from 'mint-ui';
+import moment from "moment";
 export default {
   name: 'intro',
   data() {
@@ -195,9 +202,15 @@ export default {
       consutContent2: '',
       consutContent3: '',
       commentList:[],
+      commentLen:0,
       replyDic:{"from_name":"","from_uid":"","commont_id":""},
     }
-  },
+  },filters:{
+      momentTime: function (value) {
+        return moment.utc(value).fromNow()
+    }
+  }
+  ,
   components: {
     // HeaderTop
   },
@@ -205,6 +218,7 @@ export default {
     this.proid = this.$route.query.data
     this.getinfo(this.proid)
     this.getComlist(this.proid)
+    moment.locale("zh-cn")
   },
   methods: {
     async getinfo(id) {
@@ -252,7 +266,8 @@ export default {
       if (ret && ret.flag) {
         let data = ret.data || {}
         _this.commentList = data.lists || []
-        console.log(ret)
+        _this.commentLen = data.lists.length
+        // console.log(_this.commentLen)
       }
     },
 
