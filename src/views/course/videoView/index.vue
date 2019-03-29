@@ -94,20 +94,35 @@
                   </mt-cell>
                 </div>
             </div>
-            <div v-for='(item,index) in commentList' :key='index'>
-                <div  @click="doReply(item)">
-                  <mt-cell :title="item.from_name+' :'+item.content">
-                    <span style="font-size: 10px">{{item.createTime|momentTime}}</span>
-                  </mt-cell>
+              <div class="comment-item" v-for='(item,index) in commentList' :key='index'>
+                <div class="header">
+                  <div class="avatar">
+                    <img :src="item.headerImageUrl">
+                  </div>
+                  <div class="info">
+                          <div class="name">
+                            {{item.from_name}}
+                          </div>
+                          <div class="date">
+                            {{item.createTime|momentTime}}
+                          </div>
+                    </div>
                 </div>
-              <div v-for='(item2,index2) in item.replyList' :key='index2'>
-                <div  @click="doReply(item2)">
-                  <mt-cell  :label="item2.from_name+' 回复@'+item2.to_name+' :'+item2.content">
-                    <span style="font-size: 10px">{{item2.createTime|momentTime}}</span>
-                  </mt-cell>
-                </div>
+                <div class="content">
+                  <div  @click="doReply(item)" style="text-align: left;">{{item.content}}</div>
+                  <div class="rely-ref" v-if="item.replyList.length">
+                        <div v-for='(item2,index2) in item.replyList' :key='index2'>
+                          <div  @click="doReply(item2)">
+                            <span class="name">{{item2.from_name}}</span>
+                            回复 
+                            <span class="name">@{{item2.to_name}}</span>
+                            {{item2.content}}
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+                <div class="line"></div>
               </div>
-            </div>
           <div style="height: 50px"></div>  
         </mt-tab-container-item>
           <mt-tab-container-item id='4'>
