@@ -52,7 +52,7 @@ export default {
       isCollectTtl: '收藏',
       comefrom:'',
       updateTime:'',
-      introduction:"",
+      introduction:"<p>正在加载</p>",
       imgVideo:"",
     }
   },filters:{

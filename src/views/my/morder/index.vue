@@ -10,16 +10,15 @@
           <div class='panel-bd'>
             <h3>{{item.body}}</h3>
             <p class='u-p'>{{item.speaker}} 主持</p>
-            <!-- <p class='u-price'>
-              <span class='u-unit'>￥</span>2999
-              <span class='u-count'>27人参与</span>
-            </p> -->
           </div>
         </div>
         <div class='pay-detail'>
           <div class='dt-lf'>
             <p class="p-price">实际付款: ￥<span>{{item.total_fee/100 || ''}}</span></p>
             <p>{{item.state == '0' ? '购买成功' : '购买失败'}}</p>
+            <p class='u-price'>
+            <span class='u-count'>{{item.createTime|momentTime}}</span>
+            </p>
           </div>
           <!-- <mt-button type='default' size='small' @click='goToStudy'>立即学习</mt-button> -->
         </div>
@@ -30,13 +29,21 @@
 
 <script>
 import HeaderTop from '@/components/HeaderTop';
+import moment from "moment";
+
 import {
   getOrderList
 } from '@/api/lession'
 export default {
   name: 'morder',  
   created(){
+    moment.locale("zh-cn")
 
+  }
+  ,filters:{
+      momentTime: function (value) {
+        return moment.utc(value).fromNow()
+    }
   }
   ,
   data() {

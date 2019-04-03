@@ -10,6 +10,9 @@
           <div class='panel-bd'>
             <h3>{{item.body}}</h3>
             <p class='u-p'>{{item.speaker}} 主持</p>
+            <p class='u-price'>
+            <span class='u-count'>{{item.createTime|momentTime}}</span>
+            </p>
           </div>
       </router-link>
             <router-link v-if="item.proType=='XSSP'" :to="'/course/videoView?data='+item.proid" class='panel-content'>
@@ -19,6 +22,9 @@
           <div class='panel-bd'>
             <h3>{{item.body}}</h3>
             <p class='u-p'>{{item.speaker}} 主持</p>
+            <p class='u-price'>
+            <span class='u-count'>{{item.createTime|momentTime}}</span>
+            </p>
           </div>
       </router-link>
             <router-link v-if="item.proType=='KYZD'" :to="'/course/hindex?data='+item.proid" class='panel-content'>
@@ -27,7 +33,9 @@
           </div>
           <div class='panel-bd'>
             <h3>{{item.body}}</h3>
-            <!-- <p class='u-p'>{{item.speaker}} 主持</p> -->
+            <p class='u-price'>
+            <span class='u-count'>{{item.createTime|momentTime}}</span>
+            </p>
           </div>
       </router-link>
     </div>
@@ -37,13 +45,21 @@
 
 <script>
 import HeaderTop from '@/components/HeaderTop'
+import moment from "moment";
+
 import {
   getMyCollectionList
 } from '@/api/lession'
 export default {
   name: 'mcollect', 
    created(){
+    moment.locale("zh-cn")
 
+  }
+  ,filters:{
+      momentTime: function (value) {
+        return moment.utc(value).fromNow()
+    }
   }
   ,
   data() {
