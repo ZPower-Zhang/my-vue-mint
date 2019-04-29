@@ -36,14 +36,15 @@
         <router-link v-if="item2.proType=='XXPX'" :to="'/course/intro?data='+item2.proid" class='panel-content'>
           <div class='panel-hd'>
             <img v-bind:src='item2.sImgURL' alt srcset>
+            <img v-show="index2==0" class="gif" v-bind:src='newImg' alt srcset>
           </div>
           <div class='panel-bd'>
             <h3>{{item2.body}}</h3>
             <p class='u-p'>{{item2.speaker}} 主持</p>
             <p class='u-price'>
-              <!-- <span class='u-unit'>￥{{item2.total_fee/100}}</span> -->
-              <span class='u-unit'>￥暂定</span>
-              <!-- <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span> -->
+              <span class='u-unit'>￥{{item2.total_fee/100}}</span>
+              <!-- <span class='u-unit'>￥暂定</span> -->
+              <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span>
               <span class='u-count'>剩余{{item2.number-item2.buyCount}}个名额</span>
             </p>
           </div>
@@ -59,7 +60,7 @@
             <p class='u-price'>
               <span class='u-unit'>￥{{item2.total_fee/100}}</span>
               <span style='text-decoration:line-through;color: black'>{{item2.on_sale == '1' ? '¥'+item2.Orig_fee/100 : ''}}</span>
-              <span class='u-count'>{{item2.buyCount||0}}人购买</span>
+              <span class='u-count'>{{item2.buyCount||0}}人报名</span>
             </p>
           </div>
         </router-link>
@@ -103,6 +104,7 @@
 
 <script>
 import imgVideo from '@/assets/img/视频透明.png'
+import newgif from '@/assets/img/new02.gif'
 import imgTrain from '@/assets/img/培训透明.png'
 import imgGuide from '@/assets/img/科研透明.png'
 import imgConsult from '@/assets/img/资讯透明.png'
@@ -116,6 +118,7 @@ export default {
       trainImg: imgTrain,
       guideImg: imgGuide,
       consultImg: imgConsult,
+      newImg:newgif,
       showDrop: false,
       showU: true,
       showBack: true,

@@ -23,11 +23,11 @@
           <mt-tab-container-item id='1'>
             <h2>{{title}}</h2>
             <div class='inline-course'>
-              <!-- <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span> -->
-              <span style="color: #f68f40;font-size: .40rem;">¥暂定</span>
+              <span style="color: #f68f40;font-size: .40rem;">¥{{total_fee/100}}</span>
+              <!-- <span style="color: #f68f40;font-size: .40rem;">¥暂定</span> -->
               
               <span style='text-decoration:line-through;color: black'>{{on_sale == '1' ? '¥'+Orig_fee/100 : ''}}</span>
-              <span style="font-size:.30rem">{{buyCount}}人购买</span>
+              <span style="font-size:.30rem">{{buyCount}}人报名</span>
               <span style="font-size:.30rem">剩余{{number-buyCount}}个名额</span>
               <span style="font-size:.30rem">{{collectionCount}}人收藏</span>
             </div>
@@ -193,7 +193,8 @@ import {
   getShare,
   getCommentList,
   getComment,
-  getReplay
+  getReplay,
+  getPayZero
 } from '@/api/lession'
 import wxconfig from '@/api/share'
 import { Toast,MessageBox } from 'mint-ui';
@@ -306,8 +307,8 @@ export default {
 
     doPayNow() {
       // MessageBox('提示', '还未开始报名');
-      Toast('还未开始报名');
-      return false
+      // Toast('还未开始报名');
+      // return false
       let _this = this
       if (_this.isBuyed == '1') {
         return false
@@ -321,8 +322,28 @@ export default {
         })
         return false
       }
-      _this.popupVisible = true
+      if(_this.proid=="XXPX00004"){
+          _this.payZero()
+      }else{
+          _this.popupVisible = true
+      }
     },
+    async payZero() {
+      let _this = this
+      let ret = await getPayZero({
+        proid: _this.proid
+      })
+      if (ret && ret.flag) {
+        let data = ret.data
+        if (ret.ret=="200"){
+            window.location.reload()
+            Toast('报名成功');
+        }else{
+            Toast('报名失败');
+        }
+      }
+    }
+    ,
 
     async payNow() {
       let _this = this
@@ -349,6 +370,7 @@ export default {
           //支付成功后返回 get_brand_wcpay_request:ok
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             window.location.reload()
+            Toast('您的资料已提交，请等待后台审核')
           } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 
           } else if (res.err_msg == "get_brand_wcpay_request:fail") {

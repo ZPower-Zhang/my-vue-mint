@@ -27,7 +27,7 @@
     </div>
 
       <div class="m-ipt">
-        <input type="text" placeholder="所在医疗机构" v-model="company">
+        <input type="text" placeholder="*所在医疗机构" v-model="company">
       </div>
 
       <div class="m-ipt">

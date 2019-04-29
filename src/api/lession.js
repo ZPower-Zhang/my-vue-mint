@@ -22,6 +22,7 @@ const getXSSPList = (params) => service.get('getXSSPlist', { params }) // 线上
 const getCommentList = (params) => service.get('getComment', { params }) // 获取评论
 const getComment = (params) => service.get('comment', { params }) // 评论
 const getReplay = (params) => service.get('reply', { params }) // 回复
+const getPayZero = (params) => service.get('payzero', { params }) // 0元报名
 
 export {
   getSendSMS,
@@ -45,5 +46,6 @@ export {
   getXSSPList,
   getCommentList,
   getComment,
-  getReplay
+  getReplay,
+  getPayZero
 }
