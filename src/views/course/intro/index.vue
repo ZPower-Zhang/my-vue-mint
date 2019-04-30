@@ -236,6 +236,7 @@ export default {
       consutContent2: '',
       consutContent3: '',
       commentList:[],
+      status:"0",
       commentLen:0,
       replyDic:{"from_name":"","from_uid":"","commont_id":""},
     }
@@ -275,12 +276,23 @@ export default {
         _this.isBuyed = data.is_buyed || ''
         _this.isCollect = data.is_collectioned || ''
         _this.on_sale = data.on_sale || ''
+        _this.statues = data.statues || ''
         _this.teachersList = data.teachers || []
         if (_this.isBuyed == '1') {
-          _this.applyTitle = '已经报名'
-          _this.seen = true
+          if (_this.statues == "0"){
+            _this.applyTitle = '审核中'
+          }else if(_this.statues=="1"){
+            _this.applyTitle = '报名成功'
+            _this.seen = true
+          }else{
+            _this.applyTitle = '报名未成功'
+          }
         } else {
-          _this.applyTitle = '立即报名'
+          if(_this.number-_this.buyCount==0){
+            _this.applyTitle = '名额已满'
+          }else{
+            _this.applyTitle = '立即报名'
+          }
         }
         if (_this.isCollect == '1') {
           _this.isCollectTtl = '取消收藏'
@@ -310,16 +322,19 @@ export default {
       // Toast('还未开始报名');
       // return false
       let _this = this
-      if (_this.isBuyed == '1') {
+      if (_this.isBuyed == '1'||_this.number-_this.buyCount==0) {
         return false
       }
       if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
         // console.log(_this.proid)
-        _this.$router.push({
+        MessageBox.confirm('请先注册后再报名').then(action => {
+                _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
         })
+      })
+
         return false
       }
       if(_this.proid=="XXPX00004"){
@@ -399,10 +414,12 @@ export default {
             let _this = this
 
       if (window.document.cookie.indexOf('uid=') < 0) {
+        MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
         })
+      })
         return false
       }
       let ret = await getCollection({
@@ -432,10 +449,12 @@ export default {
     async doConsult() {
         let _this = this
       if (window.document.cookie.indexOf('uid=') < 0) {
+          MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
         })
+      })
         return false
       }
       this.popupVisibleConsult = true
@@ -455,10 +474,12 @@ export default {
     doComment(){
         let _this = this
       if (window.document.cookie.indexOf('uid=') < 0) {
+        MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
         })
+      })
         return false
       }
       this.popupVisibleConsult2 = true
@@ -466,10 +487,12 @@ export default {
     doReply(item){
               let _this = this
       if (window.document.cookie.indexOf('uid=') < 0) {
+        MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
         })
+      })
         return false
       }
       this.popupVisibleConsult3 = true

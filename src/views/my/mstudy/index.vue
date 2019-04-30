@@ -9,7 +9,10 @@
         </div>
         <div class='panel-bd'>
           <h3>{{item.body}}</h3>
-          <p class='u-p'>{{item.speaker}} 主持</p>
+          <!-- <p class='u-p'>{{item.speaker}} 主持</p> -->
+          <p v-if="item.statues=='0'" class='u-p'>报名状态：审核中</p>
+          <p v-if="item.statues=='1'" class='u-p'>报名状态：报名成功</p>
+          <p v-if="item.statues=='2'" class='u-p'>报名状态：报名未成功</p>
           <p class='u-price'>
           <span class='u-count'>{{item.createTime|momentTime}}</span>
           </p>
@@ -21,7 +24,7 @@
         </div>
         <div class='panel-bd'>
           <h3>{{item.body}}</h3>
-          <p class='u-p'>{{item.speaker}} 主持</p>
+          <p class='u-p'>报名状态：报名成功</p>
           <p class='u-price'>
           <span class='u-count'>{{item.createTime|momentTime}}</span>
           </p>
