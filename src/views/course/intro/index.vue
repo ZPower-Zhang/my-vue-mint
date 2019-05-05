@@ -215,7 +215,6 @@ export default {
       total_fee: '',
       Orig_fee: '',
       number: 0,
-      seen: true,
       buyCount: 0,
       collectionCount: 0,
       introduction: '',
@@ -280,7 +279,7 @@ export default {
         _this.teachersList = data.teachers || []
         if (_this.isBuyed == '1') {
           if (_this.statues == "0"){
-            _this.applyTitle = '审核中'
+            _this.applyTitle = '确认中'
           }else if(_this.statues=="1"){
             _this.applyTitle = '报名成功'
             _this.seen = true
@@ -385,7 +384,7 @@ export default {
           //支付成功后返回 get_brand_wcpay_request:ok
           if (res.err_msg == "get_brand_wcpay_request:ok") {
             window.location.reload()
-            Toast('您的资料已提交，请等待后台审核')
+            Toast('您的资料已提交，请等待后台确认')
           } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 
           } else if (res.err_msg == "get_brand_wcpay_request:fail") {

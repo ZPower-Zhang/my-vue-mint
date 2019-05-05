@@ -250,13 +250,14 @@ export default {
         if (dataRet == '200') {
           let dataUid = ret.data.uid || ''
           if (dataUid!='') {
-            MessageBox('提示', '注册成功！');
+            // MessageBox('提示', '注册成功！');
             _this.setCookie('uid', dataUid, 1)
             let comproid=_this.$route.query.proid||"no"
             let comprotype=_this.$route.query.protype||"no"
             // console.log(comproid)
             // return false
             if(comproid!="no"){
+              MessageBox.confirm('注册成功,请继续报名！').then(action => {
               if(comprotype=="XXPX"){
                 _this.$router.push({
                     path: '/course/intro',
@@ -273,10 +274,15 @@ export default {
                     query:{data:comproid}
                 })
               }
+})
+
             }else{
-              _this.$router.push({
+              MessageBox.confirm('恭喜您注册成功！').then(action => {
+                _this.$router.push({
                   name: 'home',
               })
+          })
+
             }
 
           }
