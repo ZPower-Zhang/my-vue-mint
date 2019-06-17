@@ -254,6 +254,7 @@ export default {
             _this.setCookie('uid', dataUid, 1)
             let comproid=_this.$route.query.proid||"no"
             let comprotype=_this.$route.query.protype||"no"
+            let from=_this.$route.query.from||"no"
             // console.log(comproid)
             // return false
             if(comproid!="no"){
@@ -261,17 +262,17 @@ export default {
               if(comprotype=="XXPX"){
                 _this.$router.push({
                     path: '/course/intro',
-                    query:{data:comproid}
+                    query:{data:comproid,from:from}
                 })
               }else if (comprotype=="KYZD") {
                 _this.$router.push({
                     path: '/course/hindex',
-                    query:{data:comproid}
+                    query:{data:comproid,from:from}
                 })
               }else if (comprotype=="XSSP") {
                 _this.$router.push({
                     path: '/course/videoView',
-                    query:{data:comproid}
+                    query:{data:comproid,from:from}
                 })
               }
 })

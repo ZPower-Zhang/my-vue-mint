@@ -327,10 +327,10 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
         // console.log(_this.proid)
-        MessageBox.confirm('请先注册后再报名').then(action => {
+        MessageBox.confirm('请先注册登陆后再报名').then(action => {
                 _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid,comprotype:"XXPX"}
+          query: {comproid: _this.proid,comprotype:"XXPX"}
         })
       })
 
@@ -339,7 +339,12 @@ export default {
       if(_this.proid=="XXPX00004"){
           _this.payZero()
       }else{
+          var ua = window.navigator.userAgent.toLowerCase()
+          if (ua.match(/MicroMessenger/i) != 'micromessenger') {
           _this.popupVisible = true
+        }else{
+          Toast('请在微信中打开此网站支付');
+        }
       }
     },
     async payZero() {
@@ -459,9 +464,11 @@ export default {
       this.popupVisibleConsult = true
     },
     back() {
-
-        if (window.history.length <= 1) {
-                this.$router.push({path:'/'})
+        console.log(window.history.length)
+        if (window.history.length <= 2) {
+                this.$router.push({
+                  name: 'home',
+              })
                 return false
             } else {
                 this.$router.go(-1)

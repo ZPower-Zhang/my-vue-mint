@@ -11,6 +11,8 @@ const getAuth = (params) => service.get('auth', { params }) // 微信登陆
 const getMyLearningList = (params) => service.get('getMyLearningList', { params }) // 我的学习列表
 const getMyCollectionList = (params) => service.get('getMyCollectionList', { params }) // 我的收藏列表
 const getWxPay = (params) => service.get('wxpay', { params }) // 支付
+const getWxPayNative = (params) => service.get('wxpayNative', { params }) // 支付
+const getWxPayH5 = (params) => service.get('wxpayH5', { params }) // 支付
 const getWxRepay = (params) => service.get('wxrepay', { params }) // 重新支付
 const getConsult = (params) => service.get('consult', { params }) // 咨询
 const getCollection = (params) => service.get('collection', { params }) // 收藏
@@ -36,6 +38,7 @@ export {
   getMyLearningList,
   getMyCollectionList,
   getWxPay,
+  getWxPayNative,
   getWxRepay,
   getConsult,
   getCollection,
@@ -47,5 +50,6 @@ export {
   getCommentList,
   getComment,
   getReplay,
-  getPayZero
+  getPayZero,
+  getWxPayH5
 }

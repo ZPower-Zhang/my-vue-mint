@@ -76,7 +76,7 @@ export default {
   mounted() {
         if(window.document.cookie.indexOf('openid')!=-1) {
           if (window.document.cookie.indexOf('uid=') < 0) {
-              alert('请先注册')
+              alert('请先注册登陆')
               _this.$router.push({
                 name: 'up',
               })
@@ -84,6 +84,19 @@ export default {
         }else{
               this.getList()
         }
+    }else{
+          var ua = window.navigator.userAgent.toLowerCase()
+          if (ua.match(/MicroMessenger/i) != 'micromessenger') {
+              if (window.document.cookie.indexOf('uid=') < 0) {
+                    alert('请先注册登陆')
+                    _this.$router.push({
+                      name: 'up',
+                    })
+                    return false
+              }else{
+                    this.getList()
+              }
+          }
     }
   },
   methods: {

@@ -33,7 +33,7 @@ export default {
   mounted () {
     if(window.document.cookie.indexOf('openid')!=-1) {
         if (window.document.cookie.indexOf('uid=') < 0) {
-              alert('请先注册')
+              alert('请先注册登陆')
               _this.$router.push({
                 name: 'up',
               })
@@ -60,7 +60,7 @@ export default {
           if (ret.ret=="1001") {
           let _this = this
           if (window.document.cookie.indexOf('uid=') < 0) {
-              alert('请先注册')
+              alert('请先注册登陆')
               // console.log(_this.proid)
               _this.$router.push({
                 name: 'up',

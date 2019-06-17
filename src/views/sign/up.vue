@@ -31,6 +31,8 @@
 <script>
 import HeaderTop from '@/components/HeaderTop'
 import { getSendSMS, getAuthSMS } from '@/api/lession'
+import { MessageBox } from 'mint-ui';
+
 export default {
   name: 'signup',
   components: {
@@ -40,7 +42,7 @@ export default {
     return {
       showU: false,
       showBack: true,
-      showTtl: '注册',
+      showTtl: '注册登陆',
       phoneNum: null,
       validateCode: null,
       showErr: false,
@@ -147,31 +149,70 @@ export default {
       if (ret && ret.flag) {
         let dataRet = ret.ret || ''
         if (dataRet == '200') {
-          let protypedd=_this.$route.params.comprotype||"no"
-          let comproidd=_this.$route.params.comproid||"no"
+          let comproid=_this.$route.query.comproid||"no"
+          let comprotype=_this.$route.query.comprotype||"no"
+          let from=_this.$route.query.from||"no"
           _this.$router.push({
             path: 'complete',
             query:{
               phoneNum: num,
-              protype:protypedd,
-              proid:comproidd
+              protype:comprotype,
+              proid:comproid,
+              from:from
             }
           })
-        } else {
+        }else if(dataRet == '201'){
+            let dataUid = ret.data.uid || ''
+            _this.setCookie('uid', dataUid, 1)
+            let comproid=_this.$route.query.comproid||"no"
+            let comprotype=_this.$route.query.comprotype||"no"
+            let from=_this.$route.query.from||"no"
+            // console.log(comproid)
+            // return false
+            if(comproid!="no"){
+              MessageBox.confirm('登陆成功,请继续操作！').then(action => {
+              if(comprotype=="XXPX"){
+                _this.$router.push({
+                    path: '/course/intro',
+                    query:{data:comproid,from:from}
+                })
+              }else if (comprotype=="KYZD") {
+                _this.$router.push({
+                    path: '/course/hindex',
+                    query:{data:comproid,from:from}
+                })
+              }else if (comprotype=="XSSP") {
+                _this.$router.push({
+                    path: '/course/videoView',
+                    query:{data:comproid,from:from}
+                })
+              }
+})
+
+            }else{
+              MessageBox.confirm('恭喜您登陆成功！').then(action => {
+                _this.$router.push({
+                  name: 'home',
+              })
+          })
+
+        }
+
+        }else {
           _this.toggleError(true, ret.msg)
         }
       }
     },    async goToNext2() {
       
           let _this = this
-          let protypedd=_this.$route.params.comprotype||"no"
-          let comproidd=_this.$route.params.comproid||"no"
+          let comproid=_this.$route.query.comproid||"no"
+          let comprotype=_this.$route.query.comprotype||"no"
           _this.$router.push({
             path: 'complete',
             query:{
               // phoneNum: num,
-              protype:protypedd,
-              proid:comproidd
+              protype:comprotype,
+              proid:comproid
             }
           })
     },

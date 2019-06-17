@@ -5,7 +5,17 @@
   <img :src='Imgback' height="20" width="20" slot="icon" >
 </mt-button> -->
   <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop>
+  <mt-actionsheet
+  :actions="actions"
+  v-model="sheetVisible" cancelText="取消">
+  </mt-actionsheet>
+  <mt-popup
+  v-model="popup"
+  pop-transition="popup-fade"
+  modal="true" closeOnClickModal="false">
+  <div id="qrcode"></div>
 
+  </mt-popup>
   <div class='g-intro'>
     <!-- <div class='m-hd-cover'> -->
       <!-- <img :src='imgVideo' alt srcset> -->
@@ -131,6 +141,9 @@
         </mt-tab-container>
       </div>
     </div>
+
+
+
     <div class='m-ft'>
       <div class='ft-consult2' @click="doComment">评论</div>
       <div class='ft-three' @click="doGetCollect">{{isCollectTtl}}</div>
@@ -193,11 +206,13 @@ import {
   getShare,
   getCommentList,
   getComment,
-  getReplay
+  getReplay,
+  getWxPayNative,
+  getWxPayH5
 } from '@/api/lession'
 import wxconfig from '@/api/share'
-import { MessageBox,Toast } from 'mint-ui';
-
+import { MessageBox,Toast,Popup,Actionsheet } from 'mint-ui';
+import QRCode from 'qrcodejs2'
 import 'video.js/dist/video-js.css'
 import  'vue-video-player/src/custom-theme.css'
 import { videoPlayer } from 'vue-video-player'
@@ -207,6 +222,10 @@ export default {
   name: 'video',
   data() {
     return {
+      actions:[{"name":"微信支付","method":this.wx},{"name":"支付宝支付","method":this.zfb}],
+      sheetVisible:false,
+      popup:false,
+      qrurl:"",
       videoList:[],
       teachersList:[],
       Imgback:backImg,
@@ -283,6 +302,25 @@ export default {
     moment.locale("zh-cn")
   },
   methods: {
+    wx(){
+        let _this = this
+      // console.log('wx')
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+               //TODO
+               console.log("移动端")
+              _this.payH5()
+
+        }else{
+                if(_this.qrurl!=""){
+                    _this.popup=true
+                }else{
+                    _this.payNative()
+                }
+        }
+    },
+    zfb(){
+      console.log('zfb')
+    },
     async getinfo(id) {
       let _this = this
       let ret = await getProinfo({
@@ -416,15 +454,93 @@ export default {
       if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
         // console.log(_this.proid)
-        _this.$router.push({
+        let from=_this.$route.query.from||"no"
+        MessageBox.confirm('请先注册登陆后再购买').then(action => {
+                _this.$router.push({
           name: 'up',
-          params: {comproid: _this.proid,comprotype:"XSSP"}
+          query: {comproid: _this.proid,comprotype:"XSSP",from:from}
         })
+      })
+
         return false
       }
-      _this.popupVisible = true
-    },
+      var ua = window.navigator.userAgent.toLowerCase()
+      if (ua.match(/MicroMessenger/i) != 'micromessenger') {
+        // Toast('非微信环境');
+        this.sheetVisible=true
+        // if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+        //        //TODO
+        //        console.log("移动端")
+        //       _this.payH5()
 
+        // }else{
+        //         if(_this.qrurl!=""){
+        //             _this.popup=true
+        //         }else{
+        //             _this.payNative()
+        //         }
+        // }
+
+      }else{
+        _this.popupVisible = true
+      }
+    },async payNative(){
+      
+        let _this = this
+      let ret = await getWxPayNative({
+        proid: _this.proid
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          _this.qrcode(ret.data.url)
+          _this.qrurl=ret.data.url
+          _this.popup=true
+        }
+        // _this.callpay(data)
+      }
+    },
+    async payH5(){
+      
+        let _this = this
+      let ret = await getWxPayH5({
+        proid: _this.proid
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data)
+          window.location.href=ret.data.url+"&redirect_url="+encodeURIComponent(window.location.href)
+          // window.open(ret.data.url)
+          // alert(ret.data.ip)
+          // alert(ret.data.url)
+          // let winOpen = window.open("URL", "_blank"); //首先打开一个新页面
+          // setTimeout(function() {  //这里使用setTimeout非常重要，没有将无法实现
+            //原因是window.open会中断正在执行的进程，这样能保证其它代码执行完成再执行这个。
+          // winOpen.location = ret.data.url; //改变页面的location
+          // }, 800);
+          // window.open("www.baidu.com")
+          // window.location.replace(url)
+          // +"&redirect_url="+
+          // _this.qrcode(ret.data.url)
+          // _this.qrurl=ret.data.url
+          // _this.popup=true
+        }
+        // _this.callpay(data)
+      }
+    },qrcode(url) {
+      let qrcode = new QRCode('qrcode', {
+        width: 132,  
+        height: 132,
+        text: url, // 二维码地址
+        colorDark : "#000",
+        colorLight : "#fff",
+      })
+    }
+
+    ,
     async payNow() {
       let _this = this
       let ret = await getWxPay({
@@ -550,7 +666,7 @@ export default {
         }
       }
     },
-          onPlayerPlay(player) {
+      onPlayerPlay(player) {
         // console.log('player play!', player)
       },
       onPlayerPause(player) {
@@ -568,9 +684,27 @@ export default {
         console.log('the player is readied', player)
         // you can use it to do something...
         // player.[methods]
+      },isWeiXin () {
+        var ua = window.navigator.userAgent.toLowerCase()
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+          return true
+        } else {
+          return false
+        }
       }
 
 
   }
 }
 </script>
+<!-- <style scoped>
+ #qrcode {
+    display: inline-block;
+    img {
+      width: 132px;
+      height: 132px;
+      background-color: #fff; //设置白色背景色
+      padding: 6px; // 利用padding的特性，挤出白边
+    }
+  }
+</style> -->
