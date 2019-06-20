@@ -12,9 +12,15 @@
   <mt-popup
   v-model="popup"
   pop-transition="popup-fade"
-  modal="true" closeOnClickModal="false">
-  <div id="qrcode"></div>
-
+  :modal="true" :closeOnClickModal="false">
+  <div style="width: 500px;height: 400px;text-align:center" >
+  <div style="height: 10px"></div>
+  <h1>请打开微信,扫描下方二维码完成支付</h1>
+      <div id="qrcode" style="margin-top: 50px;margin-left: 150px"></div>
+      <div style="height: 10px"></div>
+      <mt-button type="primary" @click="reload()" style="margin-right: 20px;margin-top: 50px">已支付</mt-button>
+      <mt-button type="default" @click="close()"  style="margin-left: 20px;margin-top: 50px">取消</mt-button>
+  </div>
   </mt-popup>
   <div class='g-intro'>
     <!-- <div class='m-hd-cover'> -->
@@ -208,7 +214,9 @@ import {
   getComment,
   getReplay,
   getWxPayNative,
-  getWxPayH5
+  getWxPayH5,
+  getAliPayNative,
+  getAliPayH5
 } from '@/api/lession'
 import wxconfig from '@/api/share'
 import { MessageBox,Toast,Popup,Actionsheet } from 'mint-ui';
@@ -302,6 +310,12 @@ export default {
     moment.locale("zh-cn")
   },
   methods: {
+    close(){
+      this.popup = false
+    },
+    reload(){
+      window.location.reload()
+    },
     wx(){
         let _this = this
       // console.log('wx')
@@ -319,7 +333,16 @@ export default {
         }
     },
     zfb(){
-      console.log('zfb')
+            let _this = this
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+               //TODO
+               console.log("移动端")
+              // _this.payH5()
+                    _this.payAliH5()
+
+        }else{
+                    _this.alipayNative()
+        }
     },
     async getinfo(id) {
       let _this = this
@@ -468,18 +491,6 @@ export default {
       if (ua.match(/MicroMessenger/i) != 'micromessenger') {
         // Toast('非微信环境');
         this.sheetVisible=true
-        // if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
-        //        //TODO
-        //        console.log("移动端")
-        //       _this.payH5()
-
-        // }else{
-        //         if(_this.qrurl!=""){
-        //             _this.popup=true
-        //         }else{
-        //             _this.payNative()
-        //         }
-        // }
 
       }else{
         _this.popupVisible = true
@@ -500,9 +511,24 @@ export default {
         }
         // _this.callpay(data)
       }
+    },async alipayNative(){
+      
+        let _this = this
+      let ret = await getAliPayNative({
+        proid: _this.proid,
+        redirectUrl:window.location.href
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data.url)
+          window.location.href = ret.data.url
+        }
+        // _this.callpay(data)
+      }
     },
     async payH5(){
-      
         let _this = this
       let ret = await getWxPayH5({
         proid: _this.proid
@@ -513,27 +539,27 @@ export default {
         if(ret.ret=="200"){
           console.log(ret.data)
           window.location.href=ret.data.url+"&redirect_url="+encodeURIComponent(window.location.href)
-          // window.open(ret.data.url)
-          // alert(ret.data.ip)
-          // alert(ret.data.url)
-          // let winOpen = window.open("URL", "_blank"); //首先打开一个新页面
-          // setTimeout(function() {  //这里使用setTimeout非常重要，没有将无法实现
-            //原因是window.open会中断正在执行的进程，这样能保证其它代码执行完成再执行这个。
-          // winOpen.location = ret.data.url; //改变页面的location
-          // }, 800);
-          // window.open("www.baidu.com")
-          // window.location.replace(url)
-          // +"&redirect_url="+
-          // _this.qrcode(ret.data.url)
-          // _this.qrurl=ret.data.url
-          // _this.popup=true
         }
-        // _this.callpay(data)
       }
-    },qrcode(url) {
+    },async payAliH5(){
+        let _this = this
+      let ret = await getAliPayH5({
+        proid: _this.proid,
+        redirectUrl:window.location.href
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data)
+          window.location.href=ret.data.url
+        }
+      }
+    }
+    ,qrcode(url) {
       let qrcode = new QRCode('qrcode', {
-        width: 132,  
-        height: 132,
+        width: 200,  
+        height: 200,
         text: url, // 二维码地址
         colorDark : "#000",
         colorLight : "#fff",

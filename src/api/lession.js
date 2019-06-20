@@ -10,10 +10,12 @@ const getOrderList = (params) => service.get('getOrderList', { params }) // 获�
 const getAuth = (params) => service.get('auth', { params }) // 微信登陆
 const getMyLearningList = (params) => service.get('getMyLearningList', { params }) // 我的学习列表
 const getMyCollectionList = (params) => service.get('getMyCollectionList', { params }) // 我的收藏列表
-const getWxPay = (params) => service.get('wxpay', { params }) // 支付
-const getWxPayNative = (params) => service.get('wxpayNative', { params }) // 支付
-const getWxPayH5 = (params) => service.get('wxpayH5', { params }) // 支付
-const getWxRepay = (params) => service.get('wxrepay', { params }) // 重新支付
+const getWxPay = (params) => service.get('wxpay', { params }) // 微信内支付
+const getWxPayNative = (params) => service.get('wxpayNative', { params }) // 微信二维码支付
+const getAliPayNative = (params) => service.get('alipayNative', { params }) // 支付宝二维码支付
+const getAliPayH5 = (params) => service.get('alipayH5', { params }) // 支付宝H5支付
+const getWxPayH5 = (params) => service.get('wxpayH5', { params }) // 微信H5支付
+const getWxRepay = (params) => service.get('wxrepay', { params }) // 微信重新支付
 const getConsult = (params) => service.get('consult', { params }) // 咨询
 const getCollection = (params) => service.get('collection', { params }) // 收藏
 const getShare = (params) => service.get('getShare', { params }) // 分享
@@ -51,5 +53,7 @@ export {
   getComment,
   getReplay,
   getPayZero,
-  getWxPayH5
+  getWxPayH5,
+  getAliPayNative,
+  getAliPayH5
 }
