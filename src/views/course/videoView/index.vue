@@ -498,8 +498,10 @@ export default {
     },async payNative(){
       
         let _this = this
+        let from=_this.$route.query.from||"no"
       let ret = await getWxPayNative({
-        proid: _this.proid
+        proid: _this.proid,
+        comefrom:from
       })
       if (ret && ret.flag) {
         // let data = ret.data
@@ -514,9 +516,11 @@ export default {
     },async alipayNative(){
       
         let _this = this
+        let from=_this.$route.query.from||"no"
       let ret = await getAliPayNative({
         proid: _this.proid,
-        redirectUrl:window.location.href
+        redirectUrl:window.location.href,
+        comefrom:from
       })
       if (ret && ret.flag) {
         // let data = ret.data
@@ -530,8 +534,10 @@ export default {
     },
     async payH5(){
         let _this = this
+        let from=_this.$route.query.from||"no"
       let ret = await getWxPayH5({
-        proid: _this.proid
+        proid: _this.proid,
+        comefrom:from
       })
       if (ret && ret.flag) {
         // let data = ret.data
@@ -543,9 +549,11 @@ export default {
       }
     },async payAliH5(){
         let _this = this
+        let from=_this.$route.query.from||"no"
       let ret = await getAliPayH5({
         proid: _this.proid,
-        redirectUrl:window.location.href
+        redirectUrl:window.location.href,
+        comefrom:from
       })
       if (ret && ret.flag) {
         // let data = ret.data
@@ -569,8 +577,10 @@ export default {
     ,
     async payNow() {
       let _this = this
+      let from=_this.$route.query.from||"no"
       let ret = await getWxPay({
-        proid: _this.proid
+        proid: _this.proid,
+        comefrom:from
       })
       if (ret && ret.flag) {
         let data = ret.data
