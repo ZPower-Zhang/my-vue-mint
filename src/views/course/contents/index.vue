@@ -98,7 +98,8 @@ export default {
     async doGetCollect() {
             let _this = this
 
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up'
         })

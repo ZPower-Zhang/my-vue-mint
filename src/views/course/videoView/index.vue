@@ -392,7 +392,8 @@ export default {
       }
     }, doComment(){
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
@@ -403,7 +404,8 @@ export default {
     },
     doReply(item){
               let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
@@ -474,7 +476,9 @@ export default {
       if (_this.isBuyed == '1') {
         return false
       }
-      if (window.document.cookie.indexOf('uid=') < 0) {
+      let curUid = this.getCookie('uid')
+      if (!curUid){
+      // if (window.document.cookie.indexOf('uid=') < 0) {
         // alert('请先注册')
         // console.log(_this.proid)
         let from=_this.$route.query.from||"no"
@@ -490,7 +494,7 @@ export default {
       var ua = window.navigator.userAgent.toLowerCase()
       if (ua.match(/MicroMessenger/i) != 'micromessenger') {
         // Toast('非微信环境');
-        this.sheetVisible=true
+        _this.sheetVisible=true
 
       }else{
         _this.popupVisible = true
@@ -628,7 +632,8 @@ export default {
     async doGetCollect() {
             let _this = this
 
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XSSP"}
@@ -660,7 +665,8 @@ export default {
 
     async doConsult() {
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XSSP"}
@@ -670,11 +676,14 @@ export default {
       this.popupVisibleConsult = true
     },
     gohome() {
-        let _this = this
-        _this.$router.push({
-          name: 'home'
-        })
-        return false
+        if (window.history.length <= 2) {
+                this.$router.push({
+                  name: 'home',
+              })
+                return false
+            } else {
+                this.$router.go(-1)
+            }
     },
     hhh (item) {
       item.show = !item.show

@@ -212,7 +212,8 @@ export default {
     async doGetCollect() {
             let _this = this
 
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"KYZD"}
@@ -244,7 +245,8 @@ export default {
 
     async doConsult() {
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"KYZD"}
@@ -279,7 +281,8 @@ export default {
 
     doComment(){
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}
@@ -290,7 +293,8 @@ export default {
     },
     doReply(item){
               let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         _this.$router.push({
           name: 'up',
           params: {comproid: _this.proid,comprotype:"XXPX"}

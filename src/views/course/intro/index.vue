@@ -5,7 +5,23 @@
   <img :src='Imgback' height="20" width="20" slot="icon" >
 </mt-button>
   <!-- <HeaderTop :showBack='showBack' :showTtl='showTtl' :showU='showU'></HeaderTop> -->
-
+  <mt-actionsheet
+  :actions="actions"
+  v-model="sheetVisible" cancelText="取消">
+  </mt-actionsheet>
+  <mt-popup
+  v-model="popup"
+  pop-transition="popup-fade"
+  :modal="true" :closeOnClickModal="false">
+  <div style="width: 500px;height: 400px;text-align:center" >
+  <div style="height: 10px"></div>
+  <h1>请打开微信,扫描下方二维码完成支付</h1>
+      <div id="qrcode" style="margin-top: 50px;margin-left: 150px"></div>
+      <div style="height: 10px"></div>
+      <mt-button type="primary" @click="reload()" style="margin-right: 20px;margin-top: 50px">已支付</mt-button>
+      <mt-button type="default" @click="close()"  style="margin-left: 20px;margin-top: 50px">取消</mt-button>
+  </div>
+  </mt-popup>
   <div class='g-intro'>
     <div class='m-hd-cover'>
       <img :src='imgVideo' alt srcset>
@@ -194,15 +210,24 @@ import {
   getCommentList,
   getComment,
   getReplay,
-  getPayZero
+  getPayZero,
+  getWxPayNative,
+  getWxPayH5,
+  getAliPayNative,
+  getAliPayH5
 } from '@/api/lession'
 import wxconfig from '@/api/share'
-import { Toast,MessageBox } from 'mint-ui';
+import { Toast,MessageBox,Popup,Actionsheet } from 'mint-ui';
+import QRCode from 'qrcodejs2'
 import moment from "moment";
 export default {
   name: 'intro',
   data() {
     return {
+      actions:[{"name":"微信支付","method":this.wx},{"name":"支付宝支付","method":this.zfb}],
+      sheetVisible:false,
+      popup:false,
+      qrurl:"",
       teachersList:[],
       Imgback:backImg,
       imgVideo: '',
@@ -255,6 +280,40 @@ export default {
     moment.locale("zh-cn")
   },
   methods: {
+        close(){
+      this.popup = false
+    },
+    reload(){
+      window.location.reload()
+    },
+    wx(){
+        let _this = this
+      // console.log('wx')
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+               //TODO
+               console.log("移动端")
+              _this.payH5()
+
+        }else{
+                if(_this.qrurl!=""){
+                    _this.popup=true
+                }else{
+                    _this.payNative()
+                }
+        }
+    },
+    zfb(){
+            let _this = this
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端
+               //TODO
+               console.log("移动端")
+              // _this.payH5()
+                    _this.payAliH5()
+
+        }else{
+                    _this.alipayNative()
+        }
+    },
     async getinfo(id) {
       let _this = this
       let ret = await getProinfo({
@@ -324,13 +383,15 @@ export default {
       if (_this.isBuyed == '1'||_this.number-_this.buyCount==0) {
         return false
       }
-      if (window.document.cookie.indexOf('uid=') < 0) {
+      let curUid = this.getCookie('uid')
+      if (!curUid){
         // alert('请先注册')
         // console.log(_this.proid)
+        let from=_this.$route.query.from||"no"
         MessageBox.confirm('请先注册登陆后再报名').then(action => {
                 _this.$router.push({
           name: 'up',
-          query: {comproid: _this.proid,comprotype:"XXPX"}
+          query: {comproid: _this.proid,comprotype:"XXPX",from:from}
         })
       })
 
@@ -341,9 +402,10 @@ export default {
       }else{
           var ua = window.navigator.userAgent.toLowerCase()
           if (ua.match(/MicroMessenger/i) != 'micromessenger') {
-          _this.popupVisible = true
+                  // Toast('非微信环境');
+        _this.sheetVisible=true
         }else{
-          Toast('请在微信中打开此网站支付');
+          _this.popupVisible = true
         }
       }
     },
@@ -362,12 +424,91 @@ export default {
         }
       }
     }
-    ,
+    ,async payNative(){
+      
+        let _this = this
+        let from=_this.$route.query.from||"no"
+      let ret = await getWxPayNative({
+        proid: _this.proid,
+        comefrom:from
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          _this.qrcode(ret.data.url)
+          _this.qrurl=ret.data.url
+          _this.popup=true
+        }
+        // _this.callpay(data)
+      }
+    },async alipayNative(){
+      
+        let _this = this
+        let from=_this.$route.query.from||"no"
+      let ret = await getAliPayNative({
+        proid: _this.proid,
+        redirectUrl:window.location.href,
+        comefrom:from
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data.url)
+          window.location.href = ret.data.url
+        }
+        // _this.callpay(data)
+      }
+    },
+    async payH5(){
+        let _this = this
+        let from=_this.$route.query.from||"no"
+      let ret = await getWxPayH5({
+        proid: _this.proid,
+        comefrom:from
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data)
+          window.location.href=ret.data.url+"&redirect_url="+encodeURIComponent(window.location.href)
+        }
+      }
+    },async payAliH5(){
+        let _this = this
+        let from=_this.$route.query.from||"no"
+      let ret = await getAliPayH5({
+        proid: _this.proid,
+        redirectUrl:window.location.href,
+        comefrom:from
+      })
+      if (ret && ret.flag) {
+        // let data = ret.data
+        console.log(ret)
+        if(ret.ret=="200"){
+          console.log(ret.data)
+          window.location.href=ret.data.url
+        }
+      }
+    }
+    ,qrcode(url) {
+      let qrcode = new QRCode('qrcode', {
+        width: 200,  
+        height: 200,
+        text: url, // 二维码地址
+        colorDark : "#000",
+        colorLight : "#fff",
+      })
+    },
 
     async payNow() {
       let _this = this
+      let from=_this.$route.query.from||"no"
       let ret = await getWxPay({
-        proid: _this.proid
+        proid: _this.proid,
+        comefrom:from
       })
       if (ret && ret.flag) {
         let data = ret.data
@@ -417,7 +558,8 @@ export default {
     async doGetCollect() {
             let _this = this
 
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
@@ -452,7 +594,8 @@ export default {
 
     async doConsult() {
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
           MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
@@ -464,7 +607,7 @@ export default {
       this.popupVisibleConsult = true
     },
     back() {
-        console.log(window.history.length)
+        // console.log(window.history.length)
         if (window.history.length <= 2) {
                 this.$router.push({
                   name: 'home',
@@ -479,7 +622,8 @@ export default {
     },
     doComment(){
         let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
@@ -492,7 +636,8 @@ export default {
     },
     doReply(item){
               let _this = this
-      if (window.document.cookie.indexOf('uid=') < 0) {
+            let curUid = this.getCookie('uid')
+      if (!curUid){
         MessageBox.confirm('请先注册').then(action => {
         _this.$router.push({
           name: 'up',
